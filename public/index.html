@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Simple Chat</title>
+
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="header">
+      <a href="/">Simple Chat</a>
+    </header>
+
+    <main id="app">
+      <div class="chat-content" v-html="chatContent"></div>
+
+      <div v-if="joined">
+        <input type="text" v-model="message" @keyup.enter="send">
+        <button @click="send">Send</button>
+      </div>
+      
+      <div v-if="!joined">
+        <input type="text" v-model="email">
+        <input type="text" v-model="username" @keyup.enter="join">
+        <button @click="join">Join</button>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>Efrei International</p>
+    </footer>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
