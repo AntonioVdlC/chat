@@ -20,7 +20,7 @@ Once you have Go, running the server is as simple as
 ```
 cd ./src
 go get github.com/gorilla/websocket
-go run main.go
+go run *.go
 ```
 
 and open your browser to http://localhost:8000/
