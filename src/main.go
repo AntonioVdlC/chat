@@ -3,13 +3,9 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/websocket"
 )
-
-var clients = make(map[*websocket.Conn]bool)
-var broadcast = make(chan Message)
 
 var upgrader = websocket.Upgrader {
 	CheckOrigin: func(r *http.Request) bool {
@@ -17,20 +13,15 @@ var upgrader = websocket.Upgrader {
 	},
 }
 
-// Message emitted by a client and broadcasted to the channel
-type Message struct {
-	Email string `json:"email"`
-	Username string `json:"username"`
-	Content string `json:"content"`
-}
-
 func main() {
+	hub := newHub()
+	go hub.run()
+
 	fs := http.FileServer(http.Dir("../public"))
-
 	http.Handle("/", fs)
-	http.HandleFunc("/ws", handleConnections)
-
-	go handleMessages()
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		serveWs(hub, w, r)
+	})
 
 	port := getPort()
 	log.Printf("Listening on port %s", port)
@@ -41,45 +32,20 @@ func main() {
 	}
 }
 
-func getPort() string {
-	if port := os.Getenv("PORT"); port != "" {
-		return ":" + port
-	}
-	return ":8000"
-}
-
-func handleConnections(w http.ResponseWriter, r *http.Request) {
-	ws, err := upgrader.Upgrade(w, r, nil)
+func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 
-	defer ws.Close()
-
-	clients[ws] = true
-
-	for {
-		var msg Message
-		err := ws.ReadJSON(&msg)
-		if err != nil {
-			log.Printf("Error: %v", err)
-			delete(clients, ws)
-			break
-		}
-		broadcast <- msg
+	client := &Client{
+		hub:hub,
+		conn:conn,
+		send: make(chan Message),
 	}
-}
+	client.hub.register <- client
 
-func handleMessages() {
-	for {
-		msg := <- broadcast
-		for client := range clients {
-			err := client.WriteJSON(msg)
-			if err != nil {
-				log.Printf("Error: %v", err)
-				client.Close()
-				delete(clients, client)
-			}
-		}
-	}
+	go client.write()
+	client.read()
 }
