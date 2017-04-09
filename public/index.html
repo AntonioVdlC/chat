@@ -20,9 +20,7 @@
       </div>
       
       <div v-if="!joined">
-        <input type="text" v-model="email">
-        <input type="text" v-model="username" @keyup.enter="join">
-        <button @click="join">Join</button>
+        <a href="/auth?provider=facebook">Login with Facebook</a>
       </div>
     </main>
 
