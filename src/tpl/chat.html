@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Simple Chat</title>
+
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="header">
+      <a href="/">Simple Chat</a>
+    </header>
+
+    <main id="app">
+	    <p><img src="{{.AvatarURL}}"><span>{{.Name}}</span></p>
+
+      <div class="chat-content" v-html="chatContent"></div>
+
+      <input type="text" v-model="message" @keyup.enter="send">
+      <button @click="send">Send</button>
+    </main>
+
+    <footer class="footer">
+      <p>Efrei International</p>
+    </footer>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      new Vue({
+        el: '#app',
+        
+        data: {
+          ws: null,
+          message: '',
+          user: '{{.Name}}',
+          chatContent: '',
+        },
+
+        created: function() {
+          this.ws = new WebSocket("ws://" + window.location.host + "/ws")
+          this.ws.addEventListener('message', (e) => {
+            let { user, content } = JSON.parse(e.data)
+            this.chatContent += "<li><span>" + user + "</span>: <span>" + content + "</span></li>"
+          })
+        },
+
+        methods: {
+          send: function() {
+            if (!this.message) {
+              return
+            }
+
+            this.ws.send(
+              JSON.stringify({
+                user: this.user,
+                content: this.message,
+              })
+            )
+            this.message = ''
+          },
+        }
+      })
+    </script>
+  </body>
+</html>

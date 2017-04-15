@@ -23,7 +23,7 @@ var upgrader = websocket.Upgrader {
 var port = getPort()
 
 func init() {
-	store := sessions.NewFilesystemStore(os.TempDir(), []byte("goth-example1"))
+	store := sessions.NewFilesystemStore(os.TempDir(), []byte(os.Getenv("SESSION_SECRET")))
 	store.MaxLength(math.MaxInt64)
 
 	gothic.Store = store
@@ -35,8 +35,7 @@ func main() {
 	hub := newHub()
 	go hub.run()
 
-	fs := http.FileServer(http.Dir("../public"))
-	http.Handle("/", fs)
+	http.HandleFunc("/", home)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(hub, w, r)
 	})
@@ -60,8 +59,8 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	}
 
 	client := &Client{
-		hub:hub,
-		conn:conn,
+		hub: hub,
+		conn: conn,
 		send: make(chan Message),
 	}
 	client.hub.register <- client
@@ -70,41 +69,53 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	client.read()
 }
 
+func home(w http.ResponseWriter, r *http.Request) {
+	session, _ := gothic.Store.Get(r, "facebook" + gothic.SessionName)
+	values := session.Values["facebook"]
+	if values == nil {
+		t, _ := template.ParseFiles("./tpl/login.html")
+		t.Execute(w, nil)
+		return
+	}
+	
+	provider, _ := goth.GetProvider("facebook")
+	sess, _ := provider.UnmarshalSession(values.(string))
+	user, err := provider.FetchUser(sess)
+
+	if err != nil {
+		t, _ := template.ParseFiles("./tpl/login.html")
+		t.Execute(w, nil)
+	} else {
+		t, _ := template.ParseFiles("./tpl/chat.html")
+		t.Execute(w, user)
+	}
+}
+
 func authCallback(w http.ResponseWriter, r *http.Request) {
-	user, err := gothic.CompleteUserAuth(w, r)
+	_, err := gothic.CompleteUserAuth(w, r)
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
-	t, _ := template.New("foo").Parse(userTemplate)
-	t.Execute(w, user)
+	w.Header().Set("Location", "/")
+	w.WriteHeader(http.StatusTemporaryRedirect)
 }
 
 func logout(w http.ResponseWriter, r *http.Request) {
-	gothic.Logout(w, r)
+	err := gothic.Logout(w, r)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
 	w.Header().Set("Location", "/")
 	w.WriteHeader(http.StatusTemporaryRedirect)
 }
 
 func auth(w http.ResponseWriter, r *http.Request) {
-	if user, err := gothic.CompleteUserAuth(w, r); err == nil {
-		t, _ := template.New("foo").Parse(userTemplate)
-		t.Execute(w, user)
+	if _, err := gothic.CompleteUserAuth(w, r); err == nil {
+		w.Header().Set("Location", "/")
+		w.WriteHeader(http.StatusTemporaryRedirect)
 	} else {
 		gothic.BeginAuthHandler(w, r)
 	}
 }
-
-var userTemplate = `
-<p><a href="/logout/{{.Provider}}">logout</a></p>
-<p>Name: {{.Name}} [{{.LastName}}, {{.FirstName}}]</p>
-<p>Email: {{.Email}}</p>
-<p>NickName: {{.NickName}}</p>
-<p>Location: {{.Location}}</p>
-<p>AvatarURL: {{.AvatarURL}} <img src="{{.AvatarURL}}"></p>
-<p>Description: {{.Description}}</p>
-<p>UserID: {{.UserID}}</p>
-<p>AccessToken: {{.AccessToken}}</p>
-<p>ExpiresAt: {{.ExpiresAt}}</p>
-<p>RefreshToken: {{.RefreshToken}}</p>
-`
