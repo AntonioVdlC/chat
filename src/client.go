@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"github.com/gorilla/websocket"
+	"github.com/markbates/goth"
 )
 
 // Client is a middleman between the WebSocket connection and the Hub
@@ -10,6 +11,7 @@ type Client struct {
 	hub *Hub
 	conn *websocket.Conn
 	send chan Message
+	user goth.User
 }
 
 // read pumps messages from the WebSocket to the Hub
@@ -26,6 +28,7 @@ func (c *Client) read() {
 			log.Printf("Error: %v", err)
 			break
 		}
+		msg.User = c.user.Name
 		c.hub.broadcast <- msg
 	}
 }

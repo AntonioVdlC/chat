@@ -59,10 +59,17 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user, err := getUser(r, "facebook")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	
 	client := &Client{
 		hub: hub,
 		conn: conn,
 		send: make(chan Message),
+		user: user,
 	}
 	client.hub.register <- client
 

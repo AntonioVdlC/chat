@@ -28,11 +28,10 @@
     <script>
       new Vue({
         el: '#app',
-        
+
         data: {
           ws: null,
           message: '',
-          user: '{{.Name}}',
           chatContent: '',
         },
 
@@ -52,7 +51,6 @@
 
             this.ws.send(
               JSON.stringify({
-                user: this.user,
                 content: this.message,
               })
             )
