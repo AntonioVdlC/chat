@@ -19,11 +19,12 @@ Once you have Go, running the server is as simple as
 
 ```
 cd ./src
-go get github.com/gorilla/websocket
 go run *.go
 ```
 
 and open your browser to http://localhost:8000/
+
+> NB: make sure you set the environment variables `SESSION_SECRET`, `FACEBOOK_KEY` and `FACEBOOK_SECRET`!
 
 ## Running the tests
 
