@@ -6,6 +6,12 @@ import (
 	"github.com/markbates/goth"
 )
 
+// Message emitted by a client and broadcasted to the channel
+type Message struct {
+	User string `json:"user"`
+	Content string `json:"content"`
+}
+
 // Client is a middleman between the WebSocket connection and the Hub
 type Client struct {
 	hub *Hub

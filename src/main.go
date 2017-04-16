@@ -52,6 +52,37 @@ func main() {
 	}
 }
 
+// getPort returns the port by first looking at any environment variable
+// nammed PORT and then defaulting to :8000
+func getPort() string {
+	if port := os.Getenv("PORT"); port != "" {
+		return ":" + port
+	}
+	return ":8000"
+}
+
+// getUser returns the goth.User linked with the current session
+// NB: for now we are only using Facebook as an OAuth provider
+func getUser(r *http.Request, p string) (goth.User, error) {
+	session, _ := gothic.Store.Get(r, p + gothic.SessionName)
+	values := session.Values[p]
+	if values == nil {
+		return goth.User{}, errors.New("cannot find session values")
+	}
+	
+	provider, _ := goth.GetProvider(p)
+	sess, _ := provider.UnmarshalSession(values.(string))
+	user, err := provider.FetchUser(sess)
+
+	if err != nil {
+		return goth.User{}, err
+	}
+
+	return user, nil
+}
+
+// serveWs upgrades the HTTP connection to a WebSocket and registers
+// a Client (and basically just starts the whole thing!)
 func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -77,24 +108,9 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	client.read()
 }
 
-func getUser(r *http.Request, p string) (goth.User, error) {
-	session, _ := gothic.Store.Get(r, p + gothic.SessionName)
-	values := session.Values[p]
-	if values == nil {
-		return goth.User{}, errors.New("cannot find session values")
-	}
-	
-	provider, _ := goth.GetProvider(p)
-	sess, _ := provider.UnmarshalSession(values.(string))
-	user, err := provider.FetchUser(sess)
-
-	if err != nil {
-		return goth.User{}, err
-	}
-
-	return user, nil
-}
-
+// home handles the / route
+// It looks first if there's a session by getting the User then either
+// displays the login or the chat screen.
 func home(w http.ResponseWriter, r *http.Request) {
 	user, err := getUser(r, "facebook")
 
@@ -107,6 +123,8 @@ func home(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// authCallback handles the callback (duh!) and always redirects to the
+// home handler
 func authCallback(w http.ResponseWriter, r *http.Request) {
 	_, err := gothic.CompleteUserAuth(w, r)
 	if err != nil {
@@ -117,6 +135,8 @@ func authCallback(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusTemporaryRedirect)
 }
 
+// logout handles the ... logout!
+// It doesn't seem to really work at the moment, but well, maybe one day right?
 func logout(w http.ResponseWriter, r *http.Request) {
 	err := gothic.Logout(w, r)
 	if err != nil {
@@ -127,6 +147,8 @@ func logout(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusTemporaryRedirect)
 }
 
+// auth handles the authentication through Facebook and then redirects to the
+// home handler
 func auth(w http.ResponseWriter, r *http.Request) {
 	if _, err := gothic.CompleteUserAuth(w, r); err == nil {
 		w.Header().Set("Location", "/")
