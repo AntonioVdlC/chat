@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"html/template"
 	"log"
 	"math"
@@ -69,18 +70,26 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	client.read()
 }
 
-func home(w http.ResponseWriter, r *http.Request) {
-	session, _ := gothic.Store.Get(r, "facebook" + gothic.SessionName)
-	values := session.Values["facebook"]
+func getUser(r *http.Request, p string) (goth.User, error) {
+	session, _ := gothic.Store.Get(r, p + gothic.SessionName)
+	values := session.Values[p]
 	if values == nil {
-		t, _ := template.ParseFiles("./tpl/login.html")
-		t.Execute(w, nil)
-		return
+		return goth.User{}, errors.New("cannot find session values")
 	}
 	
-	provider, _ := goth.GetProvider("facebook")
+	provider, _ := goth.GetProvider(p)
 	sess, _ := provider.UnmarshalSession(values.(string))
 	user, err := provider.FetchUser(sess)
+
+	if err != nil {
+		return goth.User{}, err
+	}
+
+	return user, nil
+}
+
+func home(w http.ResponseWriter, r *http.Request) {
+	user, err := getUser(r, "facebook")
 
 	if err != nil {
 		t, _ := template.ParseFiles("./tpl/login.html")
