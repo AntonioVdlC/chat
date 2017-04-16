@@ -1,0 +1,73 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "g/V4qrXjUGG9B+e3hB+4NAYJ5Gs=",
+			"path": "github.com/gorilla/context",
+			"revision": "08b5f424b9271eedf6f9f0ce86cb9396ed337a42",
+			"revisionTime": "2016-08-17T18:46:32Z"
+		},
+		{
+			"checksumSHA1": "zmCk+lgIeiOf0Ng9aFP9aFy8ksE=",
+			"path": "github.com/gorilla/mux",
+			"revision": "599cba5e7b6137d46ddf58fb1765f5d928e69604",
+			"revisionTime": "2017-02-28T22:43:54Z"
+		},
+		{
+			"checksumSHA1": "ucTBCc7dDRKLGPsYfAzu/Gq63qA=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "e59506cc896acb7f7bf732d4fdf5e25f7ccd8983",
+			"revisionTime": "2017-02-24T19:38:04Z"
+		},
+		{
+			"checksumSHA1": "qmq72HOuwQQ87E3WKFh/Wl/SE9c=",
+			"path": "github.com/gorilla/sessions",
+			"revision": "ba78acc856fe7c79891d516131b3d903cc8d9367",
+			"revisionTime": "2017-03-07T00:35:30Z"
+		},
+		{
+			"checksumSHA1": "hEnH6sgR83Qfx7UNnphNNlelmj0=",
+			"path": "github.com/gorilla/websocket",
+			"revision": "a91eba7f97777409bc2c443f5534d41dd20c5720",
+			"revisionTime": "2017-03-19T17:27:27Z"
+		},
+		{
+			"checksumSHA1": "O3KUfEXQPfdQ+tCMpP2RAIRJJqY=",
+			"path": "github.com/markbates/goth",
+			"revision": "488a04ae13f57b10e55e1a32c8cd62f9cc66c671",
+			"revisionTime": "2017-03-01T11:13:36Z"
+		},
+		{
+			"checksumSHA1": "vLbA6ajj5Gr0rQKtziKP3QBnyEo=",
+			"path": "github.com/markbates/goth/gothic",
+			"revision": "488a04ae13f57b10e55e1a32c8cd62f9cc66c671",
+			"revisionTime": "2017-03-01T11:13:36Z"
+		},
+		{
+			"checksumSHA1": "cGs1da29iOBJh5EAH0icKDbN8CA=",
+			"path": "github.com/markbates/goth/providers/facebook",
+			"revision": "488a04ae13f57b10e55e1a32c8cd62f9cc66c671",
+			"revisionTime": "2017-03-01T11:13:36Z"
+		},
+		{
+			"checksumSHA1": "Y+HGqEkYM15ir+J93MEaHdyFy0c=",
+			"path": "golang.org/x/net/context",
+			"revision": "d1e1b351919c6738fdeb9893d5c998b161464f0c",
+			"revisionTime": "2016-12-29T22:47:41Z"
+		},
+		{
+			"checksumSHA1": "SjCoL7KD7qBmgSuqGTCAuUhigDk=",
+			"path": "golang.org/x/oauth2",
+			"revision": "7fdf09982454086d5570c7db3e11f360194830ca",
+			"revisionTime": "2017-03-21T01:28:43Z"
+		},
+		{
+			"checksumSHA1": "BAkyxbaxkrZbzGtfG5iX8v6ypIo=",
+			"path": "golang.org/x/oauth2/internal",
+			"revision": "7fdf09982454086d5570c7db3e11f360194830ca",
+			"revisionTime": "2017-03-21T01:28:43Z"
+		}
+	],
+	"rootPath": "github.com/efrei-int/chat"
+}
