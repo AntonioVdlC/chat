@@ -2,17 +2,75 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Simple Chat</title>
 
-    <link rel="stylesheet" href="/styles.css">
+    <style type="text/css">
+      /* Variables */
+      :root{
+        --color-green: #087135;
+        --padding: 16px;
+        --main-margin-top: 45%;
+        --fb-color-blue: #3B5998;
+        --fb-border-radius: 5px;
+        --fb-padding: 16px;
+        --fb-width: 50%;
+      }
+
+      /* body reset */
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Header */
+      .header {
+        background-color: var(--color-green);
+        padding: var(--padding);
+      }
+      .header a {
+        text-decoration: none;
+        color: white;
+      }
+
+      /* Main */
+      .main {
+        margin-top: var(--main-margin-top);
+      }
+      .main .login-fb {
+        display: block;
+        text-decoration: none;
+        text-align: center;
+        background-color: var(--fb-color-blue);
+        color: white;
+        padding: var(--fb-padding);
+        border-radius: var(--fb-border-radius);
+        width: var(--fb-width);
+        margin: auto;
+      }
+
+      /* Footer */
+      .footer {
+        background-color: var(--color-green);
+        color: white;
+        padding: var(--padding);
+        width: calc(100% - (var(--padding) * 2));
+        position: absolute;
+        bottom: 0;
+      }
+      .footer p {
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
     <header class="header">
       <a href="/">Simple Chat</a>
     </header>
 
-    <main id="app">
-      <a href="/auth?provider=facebook">Login with Facebook</a>
+    <main class="main" id="app">
+      <a class="login-fb" href="/auth?provider=facebook">Login with Facebook</a>
     </main>
 
     <footer class="footer">
