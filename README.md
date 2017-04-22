@@ -18,7 +18,6 @@ Your best bet is to look into the oficial documentation to get set: https://gola
 Once you have Go, running the server is as simple as
 
 ```
-cd ./src
 go run *.go
 ```
 
