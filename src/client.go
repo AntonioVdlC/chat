@@ -8,7 +8,9 @@ import (
 
 // Message emitted by a client and broadcasted to the channel
 type Message struct {
-	User string `json:"user"`
+	UserID string `json:"id"`
+	UserName string `json:"user"`
+	UserAvatar string `json:"avatar"`
 	Content string `json:"content"`
 }
 
@@ -34,7 +36,11 @@ func (c *Client) read() {
 			log.Printf("Error: %v", err)
 			break
 		}
-		msg.User = c.user.Name
+
+		msg.UserID = c.user.UserID
+		msg.UserName = c.user.Name
+		msg.UserAvatar = c.user.AvatarURL
+
 		c.hub.broadcast <- msg
 	}
 }
