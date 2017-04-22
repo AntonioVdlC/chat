@@ -45,7 +45,7 @@ func main() {
 	http.HandleFunc("/logout", logout)
 	http.HandleFunc("/auth", auth)
 
-	fs := http.FileServer(http.Dir("../public"))
+	fs := http.FileServer(http.Dir("public"))
 	http.Handle("/public/", http.StripPrefix("/public/", fs))
 
 	log.Printf("Listening on port %s", port)
@@ -118,10 +118,10 @@ func home(w http.ResponseWriter, r *http.Request) {
 	user, err := getUser(r, "facebook")
 
 	if err != nil {
-		t, _ := template.ParseFiles("./tpl/login.html")
+		t, _ := template.ParseFiles("./templates/login.html")
 		t.Execute(w, nil)
 	} else {
-		t, _ := template.ParseFiles("./tpl/chat.html")
+		t, _ := template.ParseFiles("./templates/chat.html")
 		t.Execute(w, user)
 	}
 }
