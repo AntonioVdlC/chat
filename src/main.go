@@ -45,6 +45,9 @@ func main() {
 	http.HandleFunc("/logout", logout)
 	http.HandleFunc("/auth", auth)
 
+	fs := http.FileServer(http.Dir("../public"))
+	http.Handle("/public/", http.StripPrefix("/public/", fs))
+
 	log.Printf("Listening on port %s", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
