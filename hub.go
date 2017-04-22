@@ -1,5 +1,9 @@
 package main
 
+import (
+	"log"
+)
+
 // Hub represents a chat room and holds a list of all connected
 // clients. Besides, it has methods to broadcast messages, and
 // register and unregister clients 
@@ -25,15 +29,18 @@ func (h *Hub) run() {
 	for {
 		select {
 			case client := <- h.register:
+				log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged in.")
 				h.clients[client] = true
 			case client := <- h.unregister:
 				if _, ok := h.clients[client]; ok {
+					log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged out.")
 					delete(h.clients, client)
 					close(client.send)
 				}
 			case message := <- h.broadcast:
+				log.Println("[" + message.UserID + "] " + message.UserName + " sent '" + message.Content + "'.")
 				for client := range h.clients {
-					select{
+					select {
 						case client.send <- message:
 						default:
 							close(client.send)
