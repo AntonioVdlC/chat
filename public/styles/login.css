@@ -1,0 +1,24 @@
+/* Variables */
+:root {
+  --main-margin-top: 40vh;
+  --fb-color-blue: #3B5998;
+  --fb-border-radius: 5px;
+  --fb-padding: 16px;
+  --fb-width: 50%;
+}
+
+/* Main */
+.main {
+  margin-top: var(--main-margin-top);
+}
+.main .login-fb {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--fb-color-blue);
+  color: white;
+  padding: var(--fb-padding);
+  border-radius: var(--fb-border-radius);
+  width: var(--fb-width);
+  margin: auto;
+}

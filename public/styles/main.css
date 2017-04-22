@@ -1,0 +1,37 @@
+/* Variables */
+:root {
+  --color-green: #087135;
+  --padding: 16px;
+}
+
+/* body reset */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+.header {
+  background-color: var(--color-green);
+  padding: var(--padding);
+}
+.header a {
+  text-decoration: none;
+  color: white;
+}
+
+/* Main */
+/* Implemented for each page in a different file */
+
+/* Footer */
+.footer {
+  background-color: var(--color-green);
+  color: white;
+  padding: var(--padding);
+  width: calc(100% - (var(--padding) * 2));
+  position: absolute;
+  bottom: 0;
+}
+.footer p {
+  margin: 0;
+}
