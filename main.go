@@ -15,12 +15,6 @@ import (
 	"github.com/markbates/goth/providers/facebook"
 )
 
-var upgrader = websocket.Upgrader {
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
-
 var port = getPort()
 
 func init() {
@@ -87,6 +81,8 @@ func getUser(r *http.Request, p string) (goth.User, error) {
 // serveWs upgrades the HTTP connection to a WebSocket and registers
 // a Client (and basically just starts the whole thing!)
 func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	upgrader := websocket.Upgrader{}
+
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatal(err)
