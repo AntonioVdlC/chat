@@ -16,7 +16,12 @@
     </header>
 
     <main class="main" id="app">
-      <ul class="chat-content" v-html="chatContent"></ul>
+      <ul class="chat-content">
+        <li v-for="msg in chat">
+          <img class="avatar" :src="msg.avatar" :alt="msg.user" :title="msg.user">
+          <span class="message">${msg.content}</span>
+        </li>
+      </ul>
 
       <div class="chat-message">
         <input type="text" placeholder="Message ..." v-model="message" @keyup.enter="send">
