@@ -63,14 +63,6 @@ html, body {
   border-radius: var(--padding);
 }
 
-/* This can be used to diplay the user's messages differently than other users' messages */
-.main .chat-content li .mine {
-
-}
-.main .chat-content li .others {
-
-}
-
 .main .chat-message {
   margin-top: auto;
   display: flex;
