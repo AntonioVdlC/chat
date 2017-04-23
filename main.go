@@ -15,15 +15,14 @@ import (
 	"github.com/markbates/goth/providers/facebook"
 )
 
-var port = getPort()
-
 func init() {
 	store := sessions.NewFilesystemStore(os.TempDir(), []byte(os.Getenv("SESSION_SECRET")))
 	store.MaxLength(math.MaxInt64)
 
 	gothic.Store = store
 
-	goth.UseProviders(facebook.New(os.Getenv("FACEBOOK_KEY"), os.Getenv("FACEBOOK_SECRET"), "http://localhost" + port + "/auth/callback?provider=facebook"))
+	host := getHost()
+	goth.UseProviders(facebook.New(os.Getenv("FACEBOOK_KEY"), os.Getenv("FACEBOOK_SECRET"), host + "/auth/callback?provider=facebook"))
 }
 
 func main() {
@@ -42,6 +41,7 @@ func main() {
 	fs := http.FileServer(http.Dir("public"))
 	http.Handle("/public/", http.StripPrefix("/public/", fs))
 
+	port := getPort()
 	log.Printf("Listening on port %s", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
@@ -56,6 +56,15 @@ func getPort() string {
 		return ":" + port
 	}
 	return ":8000"
+}
+
+// getHost returns the host URL by looking if the app is running in "dev" or
+// in production (on Heroku for now)
+func getHost() string {
+	if env := os.Getenv("ENV"); env == "dev" {
+		return "http://localhost:8000"
+	}
+	return "https://efrei-int-chat.herokuapp.com"
 }
 
 // getUser returns the goth.User linked with the current session
