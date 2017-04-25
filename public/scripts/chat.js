@@ -14,9 +14,16 @@ new Vue({
   created: function() {
     let protocol = (window.location.protocol === 'https:') ? 'wss:' : 'ws:'
     this.ws = new WebSocket(`${protocol}//${window.location.host}/ws`)
+
     this.ws.addEventListener('message', (e) => {
       let { user, avatar, content } = JSON.parse(e.data)
       this.chat.push({ user, avatar, content })
+    })
+    this.ws.addEventListener('close', (e) => {
+      this.ws = null
+    })
+    this.ws.addEventListener('error', (e) => {
+      this.ws = null
     })
   },
 
@@ -26,7 +33,7 @@ new Vue({
         return
       }
 
-      this.ws.send(
+      this.ws && this.ws.send(
         JSON.stringify({
           content: this.message,
         })
