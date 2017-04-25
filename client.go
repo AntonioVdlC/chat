@@ -4,6 +4,7 @@ import (
 	"log"
 	"github.com/gorilla/websocket"
 	"github.com/markbates/goth"
+	"time"
 )
 
 // Message emitted by a client and broadcasted to the channel
@@ -47,16 +48,26 @@ func (c *Client) read() {
 
 // write pumps messages from the Hub to the WebSocket
 func (c *Client) write() {
+	ticker := time.NewTicker(33 * time.Second)
+	
 	defer func() {
+		ticker.Stop()
 		c.conn.Close()
 	}()
 
 	for {
-		msg := <- c.send
-		err := c.conn.WriteJSON(msg)
-		if err != nil {
-			log.Printf("Error: %v", err)
-			return
+		select {
+			case msg := <- c.send:
+				err := c.conn.WriteJSON(msg)
+				if err != nil {
+					log.Printf("Error: %v", err)
+					return
+				}
+
+			case <- ticker.C:
+				if err := c.conn.WriteMessage(websocket.PingMessage, []byte{}); err != nil {
+					return
+				}
 		}
 	}
 }
