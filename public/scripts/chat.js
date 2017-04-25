@@ -12,7 +12,8 @@ new Vue({
   },
 
   created: function() {
-    this.ws = new WebSocket("wss://" + window.location.host + "/ws")
+    let protocol = (window.location.protocol === 'https') ? 'wss' : 'ws'
+    this.ws = new WebSocket(`${protocol}://${window.location.host}/ws`)
     this.ws.addEventListener('message', (e) => {
       let { user, avatar, content } = JSON.parse(e.data)
       this.chat.push({ user, avatar, content })
