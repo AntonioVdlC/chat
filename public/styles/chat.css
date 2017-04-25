@@ -31,7 +31,7 @@ html, body {
 .main {
   display: flex;
   flex-direction: column;
-  height: calc(100% - ((var(--padding) * 6) + (var(--line-height) * 2)));
+  height: calc(100% - ((var(--padding) * 6) + (var(--line-height) * 1)));
   padding: var(--padding);
 }
 
