@@ -20,9 +20,17 @@ new Vue({
       this.chat.push({ user, avatar, type, content })
     })
     this.ws.addEventListener('close', (e) => {
+      this.chat.push({
+        type: "warning",
+        content: "Connection Closed. Please refresh your browser!",
+      })
       this.ws = null
     })
     this.ws.addEventListener('error', (e) => {
+      this.chat.push({
+        type: "warning",
+        content: "Connection Error. Please refresh your browser!",
+      })
       this.ws = null
     })
   },

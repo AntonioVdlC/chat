@@ -13,6 +13,7 @@
   --chat-font-size: 20px;
   --chat-message-bg-color: whitesmoke;
   --chat-notice-bg-color: whitesmoke;
+  --chat-warning-bg-color: red;
   --chat-input-padding: 0px 8px;
   --chat-button-padding: 8px 24px 12px;
 }
@@ -72,6 +73,16 @@ html, body {
   border-radius: var(--padding);
   padding: var(--padding-right-left);
   line-height: var(--avatar-size);
+}
+.main .chat-content li .warning {
+  text-align: center;
+  display: block;
+  flex-grow: 1;
+  background-color: var(--chat-warning-bg-color);
+  color: white;
+  padding: var(--padding-half-right-left);
+  line-height: var(--avatar-size);
+  border-radius: var(--padding);
 }
 
 .main .chat-message {

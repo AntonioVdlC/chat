@@ -27,6 +27,10 @@
           <template v-else-if="msg.type === 'notice'">
             <span class="notice">${msg.content}</span>
           </template>
+          <!-- Warning -->
+          <template v-else-if="msg.type === 'warning'">
+            <span class="warning">${msg.content}</span>
+          </template>
         </li>
       </ul>
 
