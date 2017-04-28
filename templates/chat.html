@@ -18,8 +18,11 @@
     <main class="main" id="app">
       <ul class="chat-content">
         <li v-for="msg in chat">
-          <img class="avatar" :src="msg.avatar" :alt="msg.user" :title="msg.user">
-          <span class="message">${msg.content}</span>
+          <!-- Message -->
+          <template v-if="msg.type === 'message'">
+            <img class="avatar" :src="msg.avatar" :alt="msg.user" :title="msg.user">
+            <span class="message">${msg.content}</span>
+          </template>
         </li>
       </ul>
 

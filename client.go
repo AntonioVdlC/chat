@@ -12,6 +12,7 @@ type Message struct {
 	UserID string `json:"id"`
 	UserName string `json:"user"`
 	UserAvatar string `json:"avatar"`
+	Type string `json:"type"`
 	Content string `json:"content"`
 }
 

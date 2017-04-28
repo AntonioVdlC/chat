@@ -16,8 +16,8 @@ new Vue({
     this.ws = new WebSocket(`${protocol}//${window.location.host}/ws`)
 
     this.ws.addEventListener('message', (e) => {
-      let { user, avatar, content } = JSON.parse(e.data)
-      this.chat.push({ user, avatar, content })
+      let { user, avatar, type, content } = JSON.parse(e.data)
+      this.chat.push({ user, avatar, type, content })
     })
     this.ws.addEventListener('close', (e) => {
       this.ws = null
@@ -35,6 +35,7 @@ new Vue({
 
       this.ws && this.ws.send(
         JSON.stringify({
+          type: 'message',
           content: this.message,
         })
       )
