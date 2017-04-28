@@ -2,6 +2,8 @@
 :root {
   --color-blue: #3B5998;
   --color-blue-gradient: #3498DB;
+  --padding-top-bottom: 16px 0px;
+  --padding-right-left: 0px 16px;
   --padding-half-top-bottom: 8px 0px;
   --padding-half-right-left: 0px 8px;
   --line-height: 18px;
@@ -10,6 +12,7 @@
   --avatar-box-shadow: 1px 1px 10px 0px lightgrey;
   --chat-font-size: 20px;
   --chat-message-bg-color: whitesmoke;
+  --chat-notice-bg-color: whitesmoke;
   --chat-input-padding: 0px 8px;
   --chat-button-padding: 8px 24px 12px;
 }
@@ -61,6 +64,14 @@ html, body {
   line-height: var(--avatar-size);
   background-color: var(--chat-message-bg-color);
   border-radius: var(--padding);
+}
+.main .chat-content li .notice {
+  text-align: center;
+  margin: auto;
+  background-color: var(--chat-notice-bg-color);
+  border-radius: var(--padding);
+  padding: var(--padding-right-left);
+  line-height: var(--avatar-size);
 }
 
 .main .chat-message {

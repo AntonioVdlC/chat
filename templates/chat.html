@@ -23,6 +23,10 @@
             <img class="avatar" :src="msg.avatar" :alt="msg.user" :title="msg.user">
             <span class="message">${msg.content}</span>
           </template>
+          <!-- Notice -->
+          <template v-else-if="msg.type === 'notice'">
+            <span class="notice">${msg.content}</span>
+          </template>
         </li>
       </ul>
 

@@ -30,10 +30,16 @@ func (h *Hub) run() {
 		select {
 			case client := <- h.register:
 				log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged in.")
+				for c := range h.clients {
+					c.send <- Message{Type:"notice", Content: client.user.Name + " logged in."}
+				}
 				h.clients[client] = true
 			case client := <- h.unregister:
 				if _, ok := h.clients[client]; ok {
 					log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged out.")
+					for c := range h.clients {
+						c.send <- Message{Type:"notice", Content: client.user.Name + " logged out."}
+					}
 					delete(h.clients, client)
 					close(client.send)
 				}
