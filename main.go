@@ -45,7 +45,7 @@ func main() {
 	log.Printf("Listening on port %s", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
-		log.Fatal("ListenAndServer: ", err)
+		log.Printf("Error: %v", err)
 	}
 }
 
@@ -94,13 +94,13 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Error: %v", err)
 		return
 	}
 
 	user, err := getUser(r, "facebook")
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Error: %v", err)
 		return
 	}
 	
@@ -136,7 +136,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 func authCallback(w http.ResponseWriter, r *http.Request) {
 	_, err := gothic.CompleteUserAuth(w, r)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Error: %v", err)
 		return
 	}
 	w.Header().Set("Location", "/")
@@ -148,7 +148,7 @@ func authCallback(w http.ResponseWriter, r *http.Request) {
 func logout(w http.ResponseWriter, r *http.Request) {
 	err := gothic.Logout(w, r)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Error: %v", err)
 		return
 	}
 	w.Header().Set("Location", "/")
