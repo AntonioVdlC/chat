@@ -14,6 +14,7 @@ import (
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/facebook"
 	"github.com/nicksnyder/go-i18n/i18n"
+	"io/ioutil"
 )
 
 func init() {
@@ -30,7 +31,7 @@ func main() {
 	hub := newHub()
 	go hub.run()
 
-	i18n.MustLoadTranslationFile("locales/en.all.toml")
+	loadLocales()
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
@@ -49,6 +50,18 @@ func main() {
 	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		log.Printf("Error: %v", err)
+	}
+}
+
+// loadLocales loads all i18n strings from the `locales` directory
+func loadLocales() {
+	files, err := ioutil.ReadDir("locales")
+	if err != nil {
+		log.Printf("Error: %v", err)
+		return
+	}
+	for _, file := range files {
+		i18n.MustLoadTranslationFile("locales/" + file.Name())
 	}
 }
 
