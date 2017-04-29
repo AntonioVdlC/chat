@@ -1,0 +1,23 @@
+[title]
+other = "Efrei Int Chat"
+
+# Header
+[header_title]
+other = "Efrei Int Chat"
+
+# Login
+[login_facebook]
+other = "Se connecter avec Facebook"
+
+# Chat
+[chat_message_placeholder]
+other = "Message ..."
+
+[chat_message_send]
+other = "Envoyer"
+
+[chat_warning_connection_closed]
+other = "Connection fermée. Veuillez rafraîchir votre navigateur !"
+
+[chat_warning_connection_error]
+other = "Erreur de connection. Veuillez rafraîchir votre navigateur !"
