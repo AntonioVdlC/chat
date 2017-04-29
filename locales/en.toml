@@ -16,6 +16,12 @@ other = "Message ..."
 [chat_message_send]
 other = "Send"
 
+[chat_notice_login]
+other = "{{.Name}} logged in."
+
+[chat_notice_logout]
+other = "{{.Name}} logged out."
+
 [chat_warning_connection_closed]
 other = "Connection Closed. Please refresh your browser!"
 

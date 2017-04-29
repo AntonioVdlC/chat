@@ -35,6 +35,7 @@ func main() {
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		hub.setT(initT(r.Header.Get("Accept-Language"), "en"))
 		serveWs(hub, w, r)
 	})
 
@@ -63,6 +64,13 @@ func loadLocales() {
 	for _, file := range files {
 		i18n.MustLoadTranslationFile("locales/" + file.Name())
 	}
+}
+
+// initT returns a new i18n TranslateFunc based on the "Accept-Language"
+// header and defaulting to "en"
+func initT(acceptLang string, defaultLang string) (T i18n.TranslateFunc) {
+	T = i18n.MustTfunc(acceptLang, defaultLang)
+	return
 }
 
 // getPort returns the port by first looking at any environment variable
@@ -136,9 +144,7 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 // It looks first if there's a session by getting the User then either
 // displays the login or the chat screen.
 func home(w http.ResponseWriter, r *http.Request) {
-	acceptLang := r.Header.Get("Accept-Language")
-	defaultLang := "en"
-	T := i18n.MustTfunc(acceptLang, defaultLang)
+	T := initT(r.Header.Get("Accept-Language"), "en")
 
 	user, err := getUser(r, "facebook")
 
