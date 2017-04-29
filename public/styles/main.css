@@ -1,8 +1,13 @@
 /* Variables */
 :root {
   --color-green: #087135;
-  --padding: 16px;
-  --padding-half: 8px;
+  --spacing: 16px;
+  --spacing-half: 8px;
+  --spacing-top-bottom: 16px 0px;
+  --spacing-right-left: 0px 16px;
+  --spacing-half-top-bottom: 8px 0px;
+  --spacing-half-right-left: 0px 8px;
+  --line-height: 18px;
 }
 
 /* body reset */
@@ -14,7 +19,7 @@ body {
 /* Header */
 .header {
   background-color: var(--color-green);
-  padding: var(--padding);
+  padding: var(--spacing);
 }
 .header a {
   text-decoration: none;
@@ -28,8 +33,8 @@ body {
 .footer {
   background-color: var(--color-green);
   color: white;
-  padding: var(--padding);
-  width: calc(100% - (var(--padding) * 2));
+  padding: var(--spacing);
+  width: calc(100% - (var(--spacing) * 2));
   position: absolute;
   bottom: 0;
 }

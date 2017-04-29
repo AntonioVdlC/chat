@@ -3,7 +3,7 @@
   --main-margin-top: 40vh;
   --fb-color-blue: #3B5998;
   --fb-border-radius: 5px;
-  --fb-padding: 16px;
+  --fb-spacing: 16px;
   --fb-width: 50%;
 }
 
@@ -17,7 +17,7 @@
   text-align: center;
   background-color: var(--fb-color-blue);
   color: white;
-  padding: var(--fb-padding);
+  padding: var(--fb-spacing);
   border-radius: var(--fb-border-radius);
   width: var(--fb-width);
   margin: auto;

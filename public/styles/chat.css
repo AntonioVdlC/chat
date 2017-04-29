@@ -2,11 +2,6 @@
 :root {
   --color-blue: #3B5998;
   --color-blue-gradient: #3498DB;
-  --padding-top-bottom: 16px 0px;
-  --padding-right-left: 0px 16px;
-  --padding-half-top-bottom: 8px 0px;
-  --padding-half-right-left: 0px 8px;
-  --line-height: 18px;
   --header-image-size: 25px;
   --avatar-size: 32px;
   --avatar-box-shadow: 1px 1px 10px 0px lightgrey;
@@ -16,6 +11,7 @@
   --chat-warning-bg-color: red;
   --chat-input-padding: 0px 8px;
   --chat-button-padding: 8px 24px 12px;
+  --chat-message-min-height: 40px;
 }
 
 /* body reset */
@@ -35,21 +31,21 @@ html, body {
 .main {
   display: flex;
   flex-direction: column;
-  height: calc(100% - ((var(--padding) * 6) + (var(--line-height) * 1)));
-  padding: var(--padding);
+  height: calc(100% - ((var(--spacing) * 6) + (var(--line-height) * 1)));
+  padding: var(--spacing);
 }
 
 .main .chat-content {
   height: 100%;
   list-style: none;
-  padding: var(--padding-half);
+  padding: var(--spacing-half);
   margin: 0;
-  margin-bottom: var(--padding);
+  margin-bottom: var(--spacing);
   overflow: scroll;
 }
 .main .chat-content li {
   display: flex;
-  padding: var(--padding-half-top-bottom);
+  padding: var(--spacing-half-top-bottom);
 }
 .main .chat-content li .avatar {
   height: var(--avatar-size);
@@ -61,18 +57,18 @@ html, body {
   font-size: var(--chat-font-size);
   display: block;
   flex-grow: 1;
-  margin-left: var(--padding);
-  padding: var(--padding-half-right-left);
+  margin-left: var(--spacing);
+  padding: var(--spacing-half-right-left);
   line-height: var(--avatar-size);
   background-color: var(--chat-message-bg-color);
-  border-radius: var(--padding);
+  border-radius: var(--spacing);
 }
 .main .chat-content li .notice {
   text-align: center;
   margin: auto;
   background-color: var(--chat-notice-bg-color);
-  border-radius: var(--padding);
-  padding: var(--padding-right-left);
+  border-radius: var(--spacing);
+  padding: var(--spacing-right-left);
   line-height: var(--avatar-size);
 }
 .main .chat-content li .warning {
@@ -81,14 +77,15 @@ html, body {
   flex-grow: 1;
   background-color: var(--chat-warning-bg-color);
   color: white;
-  padding: var(--padding-half-right-left);
+  padding: var(--spacing-half-right-left);
   line-height: var(--avatar-size);
-  border-radius: var(--padding);
+  border-radius: var(--spacing);
 }
 
 .main .chat-message {
   margin-top: auto;
   display: flex;
+  min-height: var(--chat-message-min-height);
 }
 .main .chat-message input {
   flex-grow: 3;
