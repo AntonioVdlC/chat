@@ -42,8 +42,9 @@ html, body {
 .main .chat-content {
   height: 100%;
   list-style: none;
-  padding: 0;
+  padding: var(--padding-half);
   margin: 0;
+  margin-bottom: var(--padding);
   overflow: scroll;
 }
 .main .chat-content li {

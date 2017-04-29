@@ -2,6 +2,7 @@
 :root {
   --color-green: #087135;
   --padding: 16px;
+  --padding-half: 8px;
 }
 
 /* body reset */

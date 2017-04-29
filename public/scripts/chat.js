@@ -35,6 +35,10 @@ new Vue({
     })
   },
 
+  updated: function () {
+    this.scrollToLast()
+  },
+
   methods: {
     send: function() {
       if (!this.message) {
@@ -48,6 +52,15 @@ new Vue({
         })
       )
       this.message = ''
+    },
+    scrollToLast: function (force = false) {
+      let $chat = this.$refs.chat
+      let doScroll = force ||
+        $chat.scrollTop > $chat.scrollHeight - $chat.clientHeight - 50
+      
+      if (doScroll) {
+        $chat.scrollTop = $chat.scrollHeight - $chat.clientHeight
+      }
     },
   }
 })

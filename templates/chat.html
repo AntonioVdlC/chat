@@ -16,7 +16,7 @@
     </header>
 
     <main class="main" id="app">
-      <ul class="chat-content">
+      <ul class="chat-content" ref="chat">
         <li v-for="msg in chat">
           <!-- Message -->
           <template v-if="msg.type === 'message'">
