@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Efrei Int Chat</title>
+    <title>{{T "title"}}</title>
 
     <link href="public/styles/main.css" rel="stylesheet">
     <link href="public/styles/chat.css" rel="stylesheet">
   </head>
   <body>
     <header class="header">
-      <a href="/">Efrei Int Chat</a>
+      <a href="/">{{T "header_title"}}</a>
       <img src="{{.AvatarURL}}">
     </header>
 
@@ -35,13 +35,19 @@
       </ul>
 
       <div class="chat-message">
-        <input type="text" placeholder="Message ..." v-model="message" @keyup.enter="send">
-        <button @click="send">Send</button>
+        <input type="text" placeholder="{{T "chat_message_placeholder"}}" v-model="message" @keyup.enter="send">
+        <button @click="send">{{T "chat_message_send"}}</button>
       </div>
     </main>
 
     <footer class="footer"></footer>
 
+    <script>
+      i18n = {
+        "chat_warning_connection_closed": {{T "chat_warning_connection_closed"}},
+        "chat_warning_connection_error": {{T "chat_warning_connection_error"}},
+      }
+    </script>
     <script src="public/scripts/vendor/vue.min.js"></script>
     <script src="public/scripts/chat.js"></script>
   </body>

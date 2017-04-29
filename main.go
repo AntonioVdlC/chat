@@ -13,6 +13,7 @@ import (
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/facebook"
+	"github.com/nicksnyder/go-i18n/i18n"
 )
 
 func init() {
@@ -28,6 +29,8 @@ func init() {
 func main() {
 	hub := newHub()
 	go hub.run()
+
+	i18n.MustLoadTranslationFile("locales/en.all.toml")
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
@@ -120,13 +123,17 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 // It looks first if there's a session by getting the User then either
 // displays the login or the chat screen.
 func home(w http.ResponseWriter, r *http.Request) {
+	acceptLang := r.Header.Get("Accept-Language")
+	defaultLang := "en"
+	T := i18n.MustTfunc(acceptLang, defaultLang)
+
 	user, err := getUser(r, "facebook")
 
 	if err != nil {
-		t, _ := template.ParseFiles("./templates/login.html")
+		t, _ := template.New("login.html").Funcs(template.FuncMap{"T": T}).ParseFiles("./templates/login.html")
 		t.Execute(w, nil)
 	} else {
-		t, _ := template.ParseFiles("./templates/chat.html")
+		t, _ := template.New("chat.html").Funcs(template.FuncMap{"T": T}).ParseFiles("./templates/chat.html")
 		t.Execute(w, user)
 	}
 }

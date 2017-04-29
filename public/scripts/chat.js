@@ -22,14 +22,14 @@ new Vue({
     this.ws.addEventListener('close', (e) => {
       this.chat.push({
         type: "warning",
-        content: "Connection Closed. Please refresh your browser!",
+        content: i18n["chat_warning_connection_closed"],
       })
       this.ws = null
     })
     this.ws.addEventListener('error', (e) => {
       this.chat.push({
         type: "warning",
-        content: "Connection Error. Please refresh your browser!",
+        content: i18n["chat_warning_connection_error"],
       })
       this.ws = null
     })

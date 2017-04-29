@@ -51,6 +51,48 @@
 			"revisionTime": "2017-03-01T11:13:36Z"
 		},
 		{
+			"checksumSHA1": "mM6ktIsvbfwg0y7tUSPyhmaaVds=",
+			"path": "github.com/nicksnyder/go-i18n/goi18n",
+			"revision": "f373441d6d54a32891b2d8b1dbf99bc518f3d60d",
+			"revisionTime": "2017-04-06T12:46:12Z"
+		},
+		{
+			"checksumSHA1": "uEc9/1HbYGeK7wPStF6FmUlfzGE=",
+			"path": "github.com/nicksnyder/go-i18n/i18n",
+			"revision": "f373441d6d54a32891b2d8b1dbf99bc518f3d60d",
+			"revisionTime": "2017-04-06T12:46:12Z"
+		},
+		{
+			"checksumSHA1": "wTDfjFl57NEElXQyhal6C57WCn4=",
+			"path": "github.com/nicksnyder/go-i18n/i18n/bundle",
+			"revision": "f373441d6d54a32891b2d8b1dbf99bc518f3d60d",
+			"revisionTime": "2017-04-06T12:46:12Z"
+		},
+		{
+			"checksumSHA1": "+XOg99I1zdmBRUb04ZswvzQ2WS0=",
+			"path": "github.com/nicksnyder/go-i18n/i18n/language",
+			"revision": "f373441d6d54a32891b2d8b1dbf99bc518f3d60d",
+			"revisionTime": "2017-04-06T12:46:12Z"
+		},
+		{
+			"checksumSHA1": "WZOU406In2hs8FJOHWqV8PWkJKs=",
+			"path": "github.com/nicksnyder/go-i18n/i18n/translation",
+			"revision": "f373441d6d54a32891b2d8b1dbf99bc518f3d60d",
+			"revisionTime": "2017-04-06T12:46:12Z"
+		},
+		{
+			"checksumSHA1": "F1IYMLBLAZaTOWnmXsgaxTGvrWI=",
+			"path": "github.com/pelletier/go-buffruneio",
+			"revision": "c37440a7cf42ac63b919c752ca73a85067e05992",
+			"revisionTime": "2017-02-27T22:03:11Z"
+		},
+		{
+			"checksumSHA1": "E1K4zMZZcF2HvuJ8aOr9e86bUzY=",
+			"path": "github.com/pelletier/go-toml",
+			"revision": "fe206efb84b2bc8e8cfafe6b4c1826622be969e3",
+			"revisionTime": "2017-04-05T01:41:05Z"
+		},
+		{
 			"checksumSHA1": "Y+HGqEkYM15ir+J93MEaHdyFy0c=",
 			"path": "golang.org/x/net/context",
 			"revision": "d1e1b351919c6738fdeb9893d5c998b161464f0c",
@@ -67,6 +109,12 @@
 			"path": "golang.org/x/oauth2/internal",
 			"revision": "7fdf09982454086d5570c7db3e11f360194830ca",
 			"revisionTime": "2017-03-21T01:28:43Z"
+		},
+		{
+			"checksumSHA1": "fALlQNY1fM99NesfLJ50KguWsio=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b",
+			"revisionTime": "2017-04-07T17:21:22Z"
 		}
 	],
 	"rootPath": "github.com/efrei-int/chat"
