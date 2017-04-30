@@ -15,6 +15,7 @@ type Message struct {
 	UserAvatar string `json:"avatar"`
 	Type string `json:"type"`
 	Content string `json:"content"`
+	Date time.Time `json:"date"`
 }
 
 // Client is a middleman between the WebSocket connection and the Hub
@@ -43,6 +44,7 @@ func (c *Client) read() {
 		msg.UserID = c.user.UserID
 		msg.UserName = c.user.Name
 		msg.UserAvatar = c.user.AvatarURL
+		msg.Date = time.Now()
 
 		c.hub.broadcast <- msg
 	}
