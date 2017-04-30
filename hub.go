@@ -50,6 +50,12 @@ func (h *Hub) run() {
 		VALUES ($1, $2, $3, $4, $5, $6)
 		RETURNING id
 	`
+	previousMessages := `
+		SELECT *
+		FROM messages
+		WHERE type = 'message'
+		LIMIT $1
+	`
 
 	for {
 		select {
@@ -72,6 +78,23 @@ func (h *Hub) run() {
 
 				// Add the new client to the list of clients
 				h.clients[client] = true
+
+				// Send previous messages to new client
+				rows, err := h.db.Query(previousMessages, 10)
+				defer rows.Close()
+				if err != nil {
+					log.Printf("Error: %v", err)
+					return
+				}
+
+				for rows.Next() {
+					var message Message
+					if err := rows.Scan(&message.ID, &message.UserID, &message.UserName, &message.UserAvatar, &message.Type, &message.Content, &message.Date); err != nil {
+						log.Printf("Error: %v", err)
+						return
+					}
+					client.send <- message
+				}
 
 			case client := <- h.unregister:
 				if _, ok := h.clients[client]; ok {
@@ -101,7 +124,7 @@ func (h *Hub) run() {
 
 				// Insert message in DB
 				var id string
-				err := h.db.QueryRow(insert, message.UserID, message.UserName, message.UserAvatar, message.Type, message.Content, time.Now()).Scan(&id)
+				err := h.db.QueryRow(insert, message.UserID, message.UserName, message.UserAvatar, message.Type, message.Content, message.Date).Scan(&id)
 				if err != nil {
 					log.Printf("Error: %v", err)
 					return
