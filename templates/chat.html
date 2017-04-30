@@ -50,6 +50,13 @@
         "chat_warning_connection_error": {{T "chat_warning_connection_error"}},
       }
     </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/public/service-worker.js", {
+          scope: "/public/"
+        }).then((reg) => console.log(`Registration succeeded.`))
+      }
+    </script>
     <script src="public/scripts/vendor/vue.min.js"></script>
     <script src="public/scripts/chat.js"></script>
   </body>

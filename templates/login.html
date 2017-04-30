@@ -21,5 +21,13 @@
     </main>
 
     <footer class="footer"></footer>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/public/service-worker.js", {
+          scope: "/public/"
+        }).then((reg) => console.log(`Registration succeeded.`))
+      }
+    </script>
   </body>
 </html>
