@@ -9,8 +9,9 @@ import (
 
 // Message emitted by a client and broadcasted to the channel
 type Message struct {
-	UserID string `json:"id"`
-	UserName string `json:"user"`
+	ID string `json:"id"`
+	UserID string `json:"userId"`
+	UserName string `json:"userName"`
 	UserAvatar string `json:"avatar"`
 	Type string `json:"type"`
 	Content string `json:"content"`

@@ -16,8 +16,8 @@ new Vue({
     this.ws = new WebSocket(`${protocol}//${window.location.host}/ws`)
 
     this.ws.addEventListener('message', (e) => {
-      let { user, avatar, type, content } = JSON.parse(e.data)
-      this.chat.push({ user, avatar, type, content })
+      let { userName, avatar, type, content } = JSON.parse(e.data)
+      this.chat.push({ userName, avatar, type, content })
     })
     this.ws.addEventListener('close', (e) => {
       this.chat.push({

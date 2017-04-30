@@ -24,7 +24,7 @@
         <li v-for="msg in chat">
           <!-- Message -->
           <template v-if="msg.type === 'message'">
-            <img class="avatar" :src="msg.avatar" :alt="msg.user" :title="msg.user">
+            <img class="avatar" :src="msg.avatar" :alt="msg.userName" :title="msg.userName">
             <span class="message">${msg.content}</span>
           </template>
           <!-- Notice -->
