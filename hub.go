@@ -3,6 +3,8 @@ package main
 import (
 	"database/sql"
 	"log"
+	"time"
+
 	"github.com/nicksnyder/go-i18n/i18n"
 )
 
@@ -36,6 +38,20 @@ func (h *Hub) setT(T i18n.TranslateFunc) {
 
 // run launches the Hub instance!
 func (h *Hub) run() {
+	var id string
+	insert := `
+		INSERT INTO messages (
+			user_id,
+			user_name,
+			user_avatar,
+			type,
+			content,
+			date_post
+		)
+		VALUES ($1, $2, $3, $4, $5, $6)
+		RETURNING id
+	`
+
 	for {
 		select {
 			case client := <- h.register:
@@ -65,6 +81,14 @@ func (h *Hub) run() {
 
 			case message := <- h.broadcast:
 				log.Println("[" + message.UserID + "] " + message.UserName + " sent '" + message.Content + "'.")
+
+				// Insert message in DB
+				err := h.db.QueryRow(insert, message.UserID, message.UserName, message.UserAvatar, message.Type, message.Content, time.Now()).Scan(&id)
+				if err != nil {
+					log.Printf("Error: %v", err)
+					return
+				}
+				message.ID = id
 
 				// Send message to all clients
 				for client := range h.clients {
