@@ -1,12 +1,46 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
+
+	_ "github.com/lib/pq"
 )
 
+const (
+	host = "localhost"
+	port = 5432
+	user = "dev"
+	password = "dev"
+	dbname = "chat_dev"
+	sslmode = "disable"
+)
+
+func initDB() *sql.DB {
+	dbInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbname, sslmode)
+	
+	db, err := sql.Open("postgres", dbInfo)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
+	
+	log.Println("Connected to DB.")
+
+	return db
+}
+
 func main() {
-	hub := newHub()
+	db := initDB()
+	defer db.Close()
+
+	hub := newHub(db)
 	go hub.run()
 
 	loadSession()

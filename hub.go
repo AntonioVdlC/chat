@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"github.com/nicksnyder/go-i18n/i18n"
 )
@@ -14,15 +15,17 @@ type Hub struct {
 	register chan *Client
 	unregister chan *Client
 	T i18n.TranslateFunc
+	db *sql.DB
 }
 
 // newHub creates a returns a new Hub instance
-func newHub() *Hub {
+func newHub(db *sql.DB) *Hub {
 	return &Hub{
 		broadcast: make(chan Message),
 		register: make(chan *Client),
 		unregister: make(chan *Client),
 		clients: make(map[*Client]bool),
+		db: db,
 	}
 }
 
