@@ -25,6 +25,10 @@ func main() {
 		serveWs(hub, w, r)
 	})
 
+	http.HandleFunc("/service-worker.js", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public/service-worker.js")
+	})
+
 	fs := http.FileServer(http.Dir("public"))
 	http.Handle("/public/", http.StripPrefix("/public/", fs))
 

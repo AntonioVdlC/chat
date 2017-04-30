@@ -4,7 +4,7 @@ self.addEventListener("install", function(event) {
   event.waitUntil(
     caches.open(version).then(function(cache) {
       return cache.addAll([
-        "/public/",
+        "/",
         "/public/scripts/vendor/vue.min.js",
         "/public/scripts/chat.js",
         "/public/styles/main.css",
@@ -26,7 +26,7 @@ self.addEventListener("fetch", function(event) {
 
       function fetchedFromNetwork(response) {
         caches.open(version).then(function(cache) {
-          cache.put(event.request, response.copy())
+          cache.put(event.request, response.clone())
         })
 
         return response
