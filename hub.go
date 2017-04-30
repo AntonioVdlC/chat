@@ -38,7 +38,6 @@ func (h *Hub) setT(T i18n.TranslateFunc) {
 
 // run launches the Hub instance!
 func (h *Hub) run() {
-	var id string
 	insert := `
 		INSERT INTO messages (
 			user_id,
@@ -57,9 +56,18 @@ func (h *Hub) run() {
 			case client := <- h.register:
 				log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged in.")
 
+				// Insert login in DB
+				var id string
+				err := h.db.QueryRow(insert, client.user.UserID, client.user.Name, client.user.AvatarURL, "notice", "login", time.Now()).Scan(&id)
+				if err != nil {
+					log.Printf("Error: %v", err)
+					return
+				}
+
 				// Send notice to other clients that a new client logged in
+				message := Message{ID:id, Type:"notice", Content: h.T("chat_notice_login", client.user)}
 				for c := range h.clients {
-					c.send <- Message{Type:"notice", Content: h.T("chat_notice_login", client.user)}
+					c.send <- message
 				}
 
 				// Add the new client to the list of clients
@@ -69,9 +77,18 @@ func (h *Hub) run() {
 				if _, ok := h.clients[client]; ok {
 					log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged out.")
 
+					// Insert logout in DB
+					var id string
+					err := h.db.QueryRow(insert, client.user.UserID, client.user.Name, client.user.AvatarURL, "notice", "logout", time.Now()).Scan(&id)
+					if err != nil {
+						log.Printf("Error: %v", err)
+						return
+					}
+
 					// Send notice to other clients that this client logged out
+					message := Message{ID:id, Type:"notice", Content: h.T("chat_notice_logout", client.user)}
 					for c := range h.clients {
-						c.send <- Message{Type:"notice", Content: h.T("chat_notice_logout", client.user)}
+						c.send <- message
 					}
 
 					// Remove the client from the list and close send chan
@@ -83,6 +100,7 @@ func (h *Hub) run() {
 				log.Println("[" + message.UserID + "] " + message.UserName + " sent '" + message.Content + "'.")
 
 				// Insert message in DB
+				var id string
 				err := h.db.QueryRow(insert, message.UserID, message.UserName, message.UserAvatar, message.Type, message.Content, time.Now()).Scan(&id)
 				if err != nil {
 					log.Printf("Error: %v", err)
