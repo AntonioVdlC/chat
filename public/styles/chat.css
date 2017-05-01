@@ -4,17 +4,17 @@
   --avatar-size: 32px;
   --avatar-box-shadow: 1px 1px 10px 0px lightgrey;
   --chat-font-size: 20px;
-  --chat-message-bg-color: whitesmoke;
+  --chat-message-bg-color: #ECEFF1;
   --chat-message-txt-color: black;
-  --chat-notice-bg-color: whitesmoke;
+  --chat-notice-bg-color: #ECEFF1;
   --chat-notice-txt-color: black;
-  --chat-warning-bg-color: red;
+  --chat-warning-bg-color: #D32F2F;
   --chat-warning-txt-color: white;
   --chat-input-padding: 0px 8px;
   --chat-button-padding: 8px 24px 12px;
   --chat-message-min-height: 40px;
-  --send-bg-color: #3B5998;
-  --send-bg-color-gradient: #3498DB;
+  --send-bg-color: #3949AB;
+  --send-bg-color-gradient: #6F74DD;
   --send-txt-color: white;
 }
 
