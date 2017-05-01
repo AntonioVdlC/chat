@@ -51,10 +51,27 @@ func (h *Hub) run() {
 		RETURNING id
 	`
 	previousMessages := `
-		SELECT *
+		(SELECT *
 		FROM messages
 		WHERE type = 'message'
-		LIMIT $1
+		LIMIT 10)
+		
+		UNION
+
+		(SELECT *
+		FROM messages
+		WHERE type = 'message'
+			AND user_id != $1
+			AND date_post > (
+				SELECT date_post
+				FROM messages
+				WHERE type = 'notice'
+					AND content = 'logout'
+					AND user_id = $1
+				ORDER BY date_post DESC
+				LIMIT 1
+			)
+		)
 	`
 
 	for {
@@ -80,7 +97,7 @@ func (h *Hub) run() {
 				h.clients[client] = true
 
 				// Send previous messages to new client
-				rows, err := h.db.Query(previousMessages, 10)
+				rows, err := h.db.Query(previousMessages, client.user.UserID)
 				defer rows.Close()
 				if err != nil {
 					log.Printf("Error: %v", err)
