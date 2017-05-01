@@ -1,7 +1,8 @@
 /* Variables */
 :root {
   --main-margin-top: 40vh;
-  --fb-color-blue: #3B5998;
+  --fb-bg-color: #3B5998;
+  --fb-txt-color: white;
   --fb-border-radius: 5px;
   --fb-spacing: 16px;
   --fb-width: 50%;
@@ -15,8 +16,8 @@
   display: block;
   text-decoration: none;
   text-align: center;
-  background-color: var(--fb-color-blue);
-  color: white;
+  background-color: var(--fb-bg-color);
+  color: var(--fb-txt-color);
   padding: var(--fb-spacing);
   border-radius: var(--fb-border-radius);
   width: var(--fb-width);

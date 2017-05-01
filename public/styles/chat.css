@@ -1,17 +1,21 @@
 /* Variables */
 :root {
-  --color-blue: #3B5998;
-  --color-blue-gradient: #3498DB;
   --header-image-size: 25px;
   --avatar-size: 32px;
   --avatar-box-shadow: 1px 1px 10px 0px lightgrey;
   --chat-font-size: 20px;
   --chat-message-bg-color: whitesmoke;
+  --chat-message-txt-color: black;
   --chat-notice-bg-color: whitesmoke;
+  --chat-notice-txt-color: black;
   --chat-warning-bg-color: red;
+  --chat-warning-txt-color: white;
   --chat-input-padding: 0px 8px;
   --chat-button-padding: 8px 24px 12px;
   --chat-message-min-height: 40px;
+  --send-bg-color: #3B5998;
+  --send-bg-color-gradient: #3498DB;
+  --send-txt-color: white;
 }
 
 /* body reset */
@@ -61,12 +65,14 @@ html, body {
   padding: var(--spacing-half-right-left);
   line-height: var(--avatar-size);
   background-color: var(--chat-message-bg-color);
+  color: var(--chat-message-txt-color);
   border-radius: var(--spacing);
 }
 .main .chat-content li .notice {
   text-align: center;
   margin: auto;
   background-color: var(--chat-notice-bg-color);
+  color: var(--chat-notice-txt-color);
   border-radius: var(--spacing);
   padding: var(--spacing-right-left);
   line-height: var(--avatar-size);
@@ -76,7 +82,7 @@ html, body {
   display: block;
   flex-grow: 1;
   background-color: var(--chat-warning-bg-color);
-  color: white;
+  color: var(--chat-warning-txt-color);
   padding: var(--spacing-half);
   border-radius: var(--spacing);
 }
@@ -93,8 +99,8 @@ html, body {
 }
 .main .chat-message button {
   flex-grow: 1;
-  color: #ffffff;
-  background: var(--color-blue);
+  color: var(--send-txt-color);
+  background: var(--send-bg-color);
   padding: var(--chat-button-padding);
   font-size: var(--chat-font-size);
   text-decoration: none;
@@ -102,5 +108,5 @@ html, body {
 }
 .main .chat-message button:hover {
   cursor: pointer;
-  background-image: linear-gradient(to bottom, var(--color-blue-gradient), var(--color-blue));
+  background-image: linear-gradient(to bottom, var(--send-bg-color-gradient), var(--send-bg-color));
 }

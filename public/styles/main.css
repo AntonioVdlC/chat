@@ -1,6 +1,9 @@
 /* Variables */
 :root {
-  --color-green: #087135;
+  --header-bg-color: #087135;
+  --header-txt-color: white;
+  --footer-bg-color: #087135;
+  --footer-txt-color: white;
   --spacing: 16px;
   --spacing-half: 8px;
   --spacing-top-bottom: 16px 0px;
@@ -18,12 +21,12 @@ body {
 
 /* Header */
 .header {
-  background-color: var(--color-green);
+  background-color: var(--header-bg-color);
   padding: var(--spacing);
 }
 .header a {
   text-decoration: none;
-  color: white;
+  color: var(--header-txt-color);
 }
 
 /* Main */
@@ -31,8 +34,8 @@ body {
 
 /* Footer */
 .footer {
-  background-color: var(--color-green);
-  color: white;
+  background-color: var(--footer-bg-color);
+  color: var(--footer-txt-color);
   padding: var(--spacing);
   width: calc(100% - (var(--spacing) * 2));
   position: absolute;
