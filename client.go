@@ -44,7 +44,7 @@ func (c *Client) read() {
 		msg.UserID = c.user.UserID
 		msg.UserName = c.user.Name
 		msg.UserAvatar = c.user.AvatarURL
-		msg.Date = time.Now()
+		msg.Date = time.Now().UTC()
 
 		c.hub.broadcast <- msg
 	}

@@ -50,7 +50,7 @@ func (h *Hub) run() {
 					UserAvatar: client.user.AvatarURL,
 					Type: "notice",
 					Content: "login",
-					Date: time.Now(),
+					Date: time.Now().UTC(),
 				})
 				if err != nil {
 					log.Printf("Error: %v", err)
@@ -94,7 +94,7 @@ func (h *Hub) run() {
 						UserAvatar: client.user.AvatarURL,
 						Type: "notice",
 						Content: "logout",
-						Date: time.Now(),
+						Date: time.Now().UTC(),
 					})
 					if err != nil {
 						log.Printf("Error: %v", err)
