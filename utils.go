@@ -61,7 +61,7 @@ func getHost() string {
 	if env := os.Getenv("ENV"); env == "dev" {
 		return "http://localhost:8000"
 	}
-	return "https://efrei-int-chat.herokuapp.com"
+	return "https://simple-go-chat.herokuapp.com"
 }
 
 // getUser returns the goth.User linked with the current session
