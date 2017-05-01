@@ -2,76 +2,20 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"os"
-	"strconv"
 
 	_ "github.com/lib/pq"
 )
 
-// DBConfig holds the config values to connect to a PostgreSQL
-// database
-type DBConfig struct {
-	Host string
-	Port int64
-	User string
-	Password string
-	Name string
-	SSLMode string
-}
-
-// getDBConfig returns the config values to connect to the DB
-// defaulting to a dev environment and reading values for the
-// envarionment variables
-func getDBConfig() DBConfig {
-	config := DBConfig{
-		Host: "localhost",
-		Port: 5432,
-		User: "dev",
-		Password: "dev",
-		Name: "chat_dev",
-		SSLMode: "disable",
-	}
-
-	if host := os.Getenv("DB_HOST"); host != "" {
-		config.Host = host
-	}
-	if port := os.Getenv("DB_PORT"); port != "" {
-		config.Port, _ = strconv.ParseInt(port, 10, 0)
-	}
-	if user := os.Getenv("DB_USER"); user != "" {
-		config.User = user
-	}
-	if password := os.Getenv("DB_PASSWORD"); password != "" {
-		config.Password = password
-	}
-	if name := os.Getenv("DB_NAME"); name != "" {
-		config.Name = name
-	}
-	if sslmode := os.Getenv("DB_SSLMODE"); sslmode != "" {
-		config.SSLMode = sslmode
-	}
-
-	return config
-}
-
 // initDB connects to the DB and creates the tables if they don't exist
 func initDB() *sql.DB {
-	config := getDBConfig()
-
-	var (
-		host = config.Host
-		port = config.Port
-		user = config.User
-		password = config.Password
-		dbname = config.Name
-		sslmode = config.SSLMode
-	)
-
 	// Connect to DB
-	dbInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s", host, port, user, password, dbname, sslmode)
-	
+	dbInfo := os.Getenv("DATABASE_URL")
+	if dbInfo == "" {
+		dbInfo = "host=localhost port=5432 user=dev password=dev dbname=chat_dev sslmode=disable"
+	}
+
 	db, err := sql.Open("postgres", dbInfo)
 	if err != nil {
 		log.Fatalf("Error: %v", err)
