@@ -1,9 +1,9 @@
 {
-  "short_name": "Efrei Int Chat",
-  "name": "Efrei Int Chat",
-  "description": "A little chat for the Efrei Int community!",
-  "background_color": "#087135",
-  "theme_color": "darkgreen",
+  "short_name": "Simple Go Chat",
+  "name": "Simple Go Chat",
+  "description": "A little chat written in Go!",
+  "background_color": "#3949AB",
+  "theme_color": "darkblue",
   "display": "standalone",
   "icons": [
     {
