@@ -38,50 +38,20 @@ func (h *Hub) setT(T i18n.TranslateFunc) {
 
 // run launches the Hub instance!
 func (h *Hub) run() {
-	insert := `
-		INSERT INTO messages (
-			user_id,
-			user_name,
-			user_avatar,
-			type,
-			content,
-			date_post
-		)
-		VALUES ($1, $2, $3, $4, $5, $6)
-		RETURNING id
-	`
-	previousMessages := `
-		(SELECT *
-		FROM messages
-		WHERE type = 'message'
-		LIMIT 10)
-		
-		UNION
-
-		(SELECT *
-		FROM messages
-		WHERE type = 'message'
-			AND user_id != $1
-			AND date_post > (
-				SELECT date_post
-				FROM messages
-				WHERE type = 'notice'
-					AND content = 'logout'
-					AND user_id = $1
-				ORDER BY date_post DESC
-				LIMIT 1
-			)
-		)
-	`
-
 	for {
 		select {
 			case client := <- h.register:
 				log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged in.")
 
 				// Insert login in DB
-				var id string
-				err := h.db.QueryRow(insert, client.user.UserID, client.user.Name, client.user.AvatarURL, "notice", "login", time.Now()).Scan(&id)
+				id, err := insertMessage(h.db, Message{
+					UserID: client.user.UserID,
+					UserName: client.user.Name,
+					UserAvatar: client.user.AvatarURL,
+					Type: "notice",
+					Content: "login",
+					Date: time.Now(),
+				})
 				if err != nil {
 					log.Printf("Error: %v", err)
 					return
@@ -97,7 +67,7 @@ func (h *Hub) run() {
 				h.clients[client] = true
 
 				// Send previous messages to new client
-				rows, err := h.db.Query(previousMessages, client.user.UserID)
+				rows, err := selectPreviousMessage(h.db, client.user.UserID)
 				defer rows.Close()
 				if err != nil {
 					log.Printf("Error: %v", err)
@@ -118,8 +88,14 @@ func (h *Hub) run() {
 					log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged out.")
 
 					// Insert logout in DB
-					var id string
-					err := h.db.QueryRow(insert, client.user.UserID, client.user.Name, client.user.AvatarURL, "notice", "logout", time.Now()).Scan(&id)
+					id, err := insertMessage(h.db, Message{
+						UserID: client.user.UserID,
+						UserName: client.user.Name,
+						UserAvatar: client.user.AvatarURL,
+						Type: "notice",
+						Content: "logout",
+						Date: time.Now(),
+					})
 					if err != nil {
 						log.Printf("Error: %v", err)
 						return
@@ -140,8 +116,7 @@ func (h *Hub) run() {
 				log.Println("[" + message.UserID + "] " + message.UserName + " sent '" + message.Content + "'.")
 
 				// Insert message in DB
-				var id string
-				err := h.db.QueryRow(insert, message.UserID, message.UserName, message.UserAvatar, message.Type, message.Content, message.Date).Scan(&id)
+				id, err := insertMessage(h.db, message)
 				if err != nil {
 					log.Printf("Error: %v", err)
 					return
