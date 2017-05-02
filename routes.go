@@ -12,7 +12,10 @@ import (
 // serveWs upgrades the HTTP connection to a WebSocket and registers
 // a Client (and basically just starts the whole thing!)
 func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	upgrader := websocket.Upgrader{}
+	upgrader := websocket.Upgrader{
+		ReadBufferSize: 1024,
+		WriteBufferSize: 1024,
+	}
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {

@@ -7,6 +7,12 @@ import (
 	"time"
 )
 
+const (
+	pongWait = 60 * time.Second
+	pingPeriod = 33 * time.Second
+	maxMessageSize = 512
+)
+
 // Message emitted by a client and broadcasted to the channel
 type Message struct {
 	ID string `json:"id"`
@@ -33,6 +39,13 @@ func (c *Client) read() {
 		c.conn.Close()
 	}()
 
+	c.conn.SetReadLimit(maxMessageSize)
+	c.conn.SetReadDeadline(time.Now().Add(pongWait))
+	c.conn.SetPongHandler(func(string) error {
+		c.conn.SetReadDeadline(time.Now().Add(pongWait))
+		return nil
+	})
+
 	for {
 		var msg Message
 		err := c.conn.ReadJSON(&msg)
@@ -52,7 +65,7 @@ func (c *Client) read() {
 
 // write pumps messages from the Hub to the WebSocket
 func (c *Client) write() {
-	ticker := time.NewTicker(33 * time.Second)
+	ticker := time.NewTicker(pingPeriod)
 	
 	defer func() {
 		ticker.Stop()
