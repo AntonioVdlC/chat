@@ -41,6 +41,7 @@ I ain't no DevOps, so these instructions will help you set up a production insta
 Regardless of your prefered method of deployment, you will need to tweak a bit the source code to get it running!
 - First of, you may want to clone this repository.
 - Once that's done, please update your hostname (`HOST`) in the `.env` file.
+- You will also need to create Facebook Login access tokens and load them into your environment varibles, as well as a session secret!
 - Finally, you can customize the title of the app in the `locales/` folder, and you may want to modify it too in the `manifest.json`. For a different set of colors, please take a look at the files inside `public/styles/`! Feel free to change the `favicon.ico` too, and the files inside the `public/icons/` folder.
 
 Now you're all set to deploy!
