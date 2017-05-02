@@ -58,7 +58,7 @@ func (h *Hub) run() {
 				}
 
 				// Send notice to other clients that a new client logged in
-				message := Message{ID:id, Type:"notice", Content: h.T("chat_notice_login", client.user)}
+				message := Message{ID:id, Type:"notice", Content: h.T("chat_notice_login", client.user), Date: time.Now().UTC()}
 				for c := range h.clients {
 					c.send <- message
 				}
@@ -102,7 +102,7 @@ func (h *Hub) run() {
 					}
 
 					// Send notice to other clients that this client logged out
-					message := Message{ID:id, Type:"notice", Content: h.T("chat_notice_logout", client.user)}
+					message := Message{ID:id, Type:"notice", Content: h.T("chat_notice_logout", client.user), Date: time.Now().UTC()}
 					for c := range h.clients {
 						c.send <- message
 					}
