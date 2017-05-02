@@ -33,6 +33,12 @@
 			"revisionTime": "2017-03-19T17:27:27Z"
 		},
 		{
+			"checksumSHA1": "qzl/TNo4WnfR+PZRfk3iFHg68sM=",
+			"path": "github.com/joho/godotenv",
+			"revision": "325433c502d409f3c3dc820098fb0cfe38d98dc7",
+			"revisionTime": "2017-03-28T20:01:54Z"
+		},
+		{
 			"checksumSHA1": "uTUsjF7bymOuKvXbW2BpkK/w4Vg=",
 			"path": "github.com/lib/pq",
 			"revision": "2704adc878c21e1329f46f6e56a1c387d788ff94",
@@ -129,5 +135,5 @@
 			"revisionTime": "2017-04-07T17:21:22Z"
 		}
 	],
-	"rootPath": "github.com/efrei-int/chat"
+	"rootPath": "github.com/AntonioVdlC/chat"
 }

@@ -13,6 +13,8 @@ import (
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/facebook"
 	"github.com/nicksnyder/go-i18n/i18n"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 // loadSession loads the session storage and initializes the auth
@@ -61,7 +63,7 @@ func getHost() string {
 	if env := os.Getenv("ENV"); env == "dev" {
 		return "http://localhost:8000"
 	}
-	return "https://simple-go-chat.herokuapp.com"
+	return os.Getenv("HOST")
 }
 
 // getUser returns the goth.User linked with the current session
