@@ -6,11 +6,13 @@
   --footer-txt-color: white;
   --spacing: 16px;
   --spacing-half: 8px;
+  --spacing-quarter: 4px;
   --spacing-top-bottom: 16px 0px;
   --spacing-right-left: 0px 16px;
   --spacing-half-top-bottom: 8px 0px;
   --spacing-half-right-left: 0px 8px;
   --line-height: 18px;
+  --header-box-shadow: 0px 1px 5px 1px grey;
 }
 
 /* body reset */
@@ -23,6 +25,7 @@ body {
 .header {
   background-color: var(--header-bg-color);
   padding: var(--spacing);
+  box-shadow: var(--header-box-shadow);
 }
 .header a {
   text-decoration: none;
