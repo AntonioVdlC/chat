@@ -85,6 +85,7 @@ func selectPreviousMessage(db *sql.DB, userID string) (*sql.Rows, error) {
 		(SELECT *
 		FROM messages
 		WHERE type = 'message'
+		ORDER BY date_post DESC
 		LIMIT 10)
 		
 		UNION
