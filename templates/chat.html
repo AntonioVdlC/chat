@@ -39,7 +39,7 @@
       </ul>
 
       <div class="chat-message">
-        <input type="text" placeholder="{{T "chat_message_placeholder"}}" v-model="message" @keyup.enter="send">
+        <input type="text" maxlength="270" placeholder="{{T "chat_message_placeholder"}}" v-model="message" @keyup.enter="send">
         <button @click="send">{{T "chat_message_send"}}</button>
       </div>
     </main>

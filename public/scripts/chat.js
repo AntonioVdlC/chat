@@ -59,6 +59,8 @@ new Vue({
     send: function() {
       if (!this.message) {
         return
+      } else if (this.message.length > 270) {
+        return
       }
 
       this.ws && this.ws.send(
