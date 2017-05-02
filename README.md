@@ -1,6 +1,8 @@
-# Efrei Int Chat
+# Simple Go Chat
 
-Just a simple chat for past, present and future members of Efrei International!
+Just a simple chat written in Go!
+It is mobile-first (-only?) and can be deployed fairly easily on Heroku, that way you can have total control on how your chat messages are handled.
+For now, the only auth provider is Facebook.
 
 ## Getting Started
 
@@ -8,8 +10,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-To get this baby running, you'll need to get Go on your machine!
-Your best bet is to look into the oficial documentation to get set: https://golang.org/doc/install
+To get this little chat running, you'll need to get Go on your machine!
+Your best bet is to look into the official documentation to get set: https://golang.org/doc/install
 
 > Note: if you are on macOS, have `brew` and want to have a more personalized install you can look into this: http://stackoverflow.com/a/40129734
 
@@ -31,12 +33,26 @@ We still have to work on those ... ahem :grimacing:
 
 ## Deployment
 
-This one is also up for grabs, but this is probably gonna end up in a dyno on Heroku or somethings!
-We can also use the domain http://efrei.international to serve the chat (either as a subdomain or a path)!
+I ain't no DevOps, so these instructions will help you set up a production instance of this simple chat on Heroku!
+> If you have set this up on something else and want to share your knowledge, please feel free to open a PR! :)
+
+### Prerequisites
+
+Regardless of your prefered method of deployment, you will need to tweak a bit the source code to get it running!
+- First of, you may want to clone this repository.
+- Once that's done, please update your hostname (`HOST`) in the `.env` file.
+- Finally, you can customize the title of the app in the `locales/` folder, and you may want to modify it too in the `manifest.json`. For a different set of colors, please take a look at the files inside `public/styles/`! Feel free to change the `favicon.ico` too, and the files inside the `public/icons/` folder.
+
+Now you're all set to deploy!
+
+### Heroku
+
+Create a new Heroku app and provision a PostgreSQL database.
+In the dashboard, connect your GitHub repo to the app and Deploy ... there you go! :tada:
 
 ## Contributing
 
-No contributing guidelines for now ... just start working on an issue in a branch, push and open a PR! :)
+No contributing guidelines for now ... just fork this repo, start working on an issue in a branch, push and open a PR! :)
 
 ## License
 
