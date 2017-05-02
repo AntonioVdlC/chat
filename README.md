@@ -61,4 +61,5 @@ This project is licensed under the MIT License.
 ## Acknowledgments
 
 * [Ed Zynda III](https://github.com/ezynda3) for his [chat example in Go](https://github.com/ezynda3/go-chat) and subsequent [article](https://scotch.io/bar-talk/build-a-realtime-chat-server-with-go-and-websockets)
+* [Gorilla](https://github.com/gorilla) contributors for their libs and, most importantly, for their [chat example in Go](https://github.com/gorilla/websocket/tree/master/examples/chat)!
 * [Billie Thompson](https://github.com/PurpleBooth) for this [README.md template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) ... it's awesome!
