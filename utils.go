@@ -93,9 +93,11 @@ func getUser(r *http.Request, p string) (goth.User, error) {
 // NB: this can be done in the server config, but on Heroku the app
 // needs to take care of it ...
 func redirect(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r,
-		"https://" + r.Host + r.URL.String(),
-		http.StatusMovedPermanently)
+	if h := w.Header().Get("x-forwarded-proto"); h == "http" {
+		http.Redirect(w, r,
+			"https://" + r.Host + r.URL.String(),
+			http.StatusMovedPermanently)
+	}
 }
 
 // GZip enconding based on https://gist.github.com/the42/1956518
