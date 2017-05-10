@@ -11,6 +11,7 @@
   --chat-warning-bg-color: #D32F2F;
   --chat-warning-txt-color: white;
   --chat-input-padding: 0px 8px;
+  --chat-input-border: 1px solid grey;
   --chat-button-padding: 8px 24px 12px;
   --chat-message-min-height: 40px;
   --send-bg-color: #3949AB;
@@ -34,7 +35,7 @@ html, body {
 .main {
   display: flex;
   flex-direction: column;
-  height: calc(100% - ((var(--spacing) * 6) + (var(--line-height) * 1)));
+  height: calc(100% - ((var(--spacing) * 5.25) + (var(--line-height) * 1)));
   padding: var(--spacing);
   padding-top: var(--spacing-quarter);
 }
@@ -96,6 +97,7 @@ html, body {
   flex-grow: 3;
   font-size: var(--chat-font-size);
   padding: var(--chat-input-padding);
+  border: var(--chat-input-border);
 }
 .main .chat-message button {
   flex-grow: 1;
