@@ -20,7 +20,7 @@
   <body>
     <header class="header">
       <a href="/">{{T "header_title"}}</a>
-      <img src="{{.AvatarURL}}">
+      <img src="{{.AvatarURL}}" alt="{{.Name}}">
     </header>
 
     <main class="main" id="app">
@@ -45,6 +45,7 @@
       <div class="chat-message">
         <input
           type="text"
+          aria-label="Write message"
           maxlength="270"
           placeholder="{{T "chat_message_placeholder"}}"
           v-model="message"

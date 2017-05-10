@@ -14,7 +14,6 @@
   --chat-button-padding: 8px 24px 12px;
   --chat-message-min-height: 40px;
   --send-bg-color: #3949AB;
-  --send-bg-color-gradient: #6F74DD;
   --send-txt-color: white;
 }
 
@@ -109,5 +108,4 @@ html, body {
 }
 .main .chat-message button:hover {
   cursor: pointer;
-  background-image: linear-gradient(to bottom, var(--send-bg-color-gradient), var(--send-bg-color));
 }
