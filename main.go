@@ -37,7 +37,7 @@ func main() {
 	})
 
 	fs := http.FileServer(http.Dir("public"))
-	http.Handle("/public/", http.StripPrefix("/public/", fs))
+	http.Handle("/public/", gzipHandler(http.StripPrefix("/public/", fs)))
 
 	port := getPort()
 	log.Printf("Listening on port %s", port)
