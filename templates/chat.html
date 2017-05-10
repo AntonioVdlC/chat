@@ -25,7 +25,7 @@
 
     <main class="main" id="app">
       <ul class="chat-content" ref="chat">
-        <li v-for="msg in chat">
+        <li v-for="msg in chat" :class="{ mine: (msg.userId === user.id) }">
           <!-- Message -->
           <template v-if="msg.type === 'message'">
             <img class="avatar" :src="msg.avatar" :alt="msg.userName" :title="msg.userName">
@@ -62,6 +62,11 @@
       i18n = {
         "chat_warning_connection_closed": {{T "chat_warning_connection_closed"}},
         "chat_warning_connection_error": {{T "chat_warning_connection_error"}},
+      }
+    </script>
+    <script>
+      user = {
+        id: {{.UserID}}
       }
     </script>
     <script>

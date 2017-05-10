@@ -6,6 +6,8 @@
   --chat-font-size: 20px;
   --chat-message-bg-color: #ECEFF1;
   --chat-message-txt-color: black;
+  --chat-message-bg-color-mine: #E0F2F1;
+  --chat-message-txt-color-mine: black;
   --chat-notice-bg-color: #ECEFF1;
   --chat-notice-txt-color: black;
   --chat-warning-bg-color: #D32F2F;
@@ -68,6 +70,10 @@ html, body {
   background-color: var(--chat-message-bg-color);
   color: var(--chat-message-txt-color);
   border-radius: var(--spacing);
+}
+.main .chat-content .mine .message {
+  background-color: var(--chat-message-bg-color-mine);
+  color: var(--chat-message-txt-color-mine);
 }
 .main .chat-content li .notice {
   text-align: center;
