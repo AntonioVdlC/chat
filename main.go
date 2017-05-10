@@ -32,7 +32,8 @@ func main() {
 		"service-worker.js",
 		"robots.txt",
 	}
-	for _, file := range rootStaticFiles {
+	for i := range rootStaticFiles {
+		file := rootStaticFiles[i]
 		http.HandleFunc("/" + file, func(w http.ResponseWriter, r *http.Request) {
 			http.ServeFile(w, r, "public/" + file)
 		})
