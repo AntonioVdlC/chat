@@ -85,3 +85,12 @@ func getUser(r *http.Request, p string) (goth.User, error) {
 
 	return user, nil
 }
+
+// redirect redirects HTTP traffic to HTTPS
+// NB: this can be done in the server config, but on Heroku the app
+// needs to take care of it ...
+func redirect(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r,
+		"https://" + r.Host + r.URL.String(),
+		http.StatusMovedPermanently)
+}

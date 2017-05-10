@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -40,8 +41,16 @@ func main() {
 
 	port := getPort()
 	log.Printf("Listening on port %s", port)
-	err := http.ListenAndServe(port, nil)
-	if err != nil {
-		log.Printf("Error: %v", err)
+	
+	if env := os.Getenv("ENV"); env == "dev" {
+		err := http.ListenAndServe(port, nil)
+		if err != nil {
+			log.Printf("Error: %v", err)
+		}
+	} else {
+		err := http.ListenAndServe(port, http.HandlerFunc(redirect))
+		if err != nil {
+			log.Printf("Error: %v", err)
+		}
 	}
 }
