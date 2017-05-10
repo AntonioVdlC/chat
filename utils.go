@@ -121,3 +121,10 @@ func gzipHandler(h http.Handler) http.Handler {
 		h.ServeHTTP(gzr, r)
 	})
 }
+
+func cacheHandler(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "max-age=2332800") // 27 days
+		h.ServeHTTP(w, r)
+	})
+}
