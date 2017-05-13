@@ -27,3 +27,7 @@ other = "Conexión Cerrada. Por favor refresque su navegador."
 
 [chat_warning_connection_error]
 other = "Error de Conexión. Por favor refresque su navegador."
+
+# Connected Users
+[no_connected_users]
+other = "No hay nadie más por aquí ... ¡por el momento!"

@@ -27,3 +27,7 @@ other = "Connection Closed. Please refresh your browser!"
 
 [chat_warning_connection_error]
 other = "Connection Error. Please refresh your browser!"
+
+# Connected Users
+[no_connected_users]
+other = "There's no one else in here ... for now!"
