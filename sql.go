@@ -97,8 +97,7 @@ func selectPreviousMessage(db *sql.DB, userID string) (*sql.Rows, error) {
 			AND date_post > (
 				SELECT date_post
 				FROM messages
-				WHERE type = 'notice'
-					AND content = 'logout'
+				WHERE type = 'logout'
 					AND user_id = $1
 				ORDER BY date_post DESC
 				LIMIT 1

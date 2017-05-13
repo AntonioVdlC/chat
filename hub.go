@@ -43,22 +43,25 @@ func (h *Hub) run() {
 			case client := <- h.register:
 				log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged in.")
 
-				// Insert login in DB
-				id, err := insertMessage(h.db, Message{
+				// Create a login message
+				message := Message{
 					UserID: client.user.UserID,
 					UserName: client.user.Name,
 					UserAvatar: client.user.AvatarURL,
-					Type: "notice",
-					Content: "login",
+					Type: "login",
+					Content: h.T("chat_notice_login", client.user),
 					Date: time.Now().UTC(),
-				})
+				}
+
+				// Insert login in DB
+				id, err := insertMessage(h.db, message)
 				if err != nil {
 					log.Printf("Error: %v", err)
 					return
 				}
+				message.ID = id
 
 				// Send notice to other clients that a new client logged in
-				message := Message{ID:id, Type:"notice", Content: h.T("chat_notice_login", client.user), Date: time.Now().UTC()}
 				for c := range h.clients {
 					c.send <- message
 				}
@@ -87,22 +90,25 @@ func (h *Hub) run() {
 				if _, ok := h.clients[client]; ok {
 					log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged out.")
 
-					// Insert logout in DB
-					id, err := insertMessage(h.db, Message{
+					// Create logout message
+					message := Message{
 						UserID: client.user.UserID,
 						UserName: client.user.Name,
 						UserAvatar: client.user.AvatarURL,
-						Type: "notice",
-						Content: "logout",
+						Type:"logout",
+						Content: h.T("chat_notice_logout", client.user),
 						Date: time.Now().UTC(),
-					})
+					}
+
+					// Insert logout in DB
+					id, err := insertMessage(h.db, message)
 					if err != nil {
 						log.Printf("Error: %v", err)
 						return
 					}
+					message.ID = id
 
 					// Send notice to other clients that this client logged out
-					message := Message{ID:id, Type:"notice", Content: h.T("chat_notice_logout", client.user), Date: time.Now().UTC()}
 					for c := range h.clients {
 						c.send <- message
 					}

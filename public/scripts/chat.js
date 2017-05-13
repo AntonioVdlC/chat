@@ -9,6 +9,7 @@ new Vue({
     ws: null,
     message: '',
     chat: [],
+    users: [],
   },
 
   created: function() {
@@ -34,7 +35,23 @@ new Vue({
         (new Date(a.date) < new Date(b.date)) ? -1 :
         0
       )
+
+      // Update users list if login or logout message
+      if (type === 'login') {
+        // As VueJS template directives don't iterate over Set or Map
+        // make sure we are not adding duplicated.
+        if (!this.users.some(user => user.id === userId)) {
+          this.users.push({ id: userId, name: userName, avatar })
+        }
+      } else if (type === 'logout') {
+        // As VueJS template directives don't iterate over Set or Map
+        // make sure we are deleting a user that exists.
+        if (this.users.some(user => user.id === userId)) {
+          this.users.splice(this.users.findIndex(user => user.id === userId), 1)
+        }
+      }
     })
+
     this.ws.addEventListener('close', (e) => {
       this.chat.push({
         type: "warning",
@@ -42,6 +59,7 @@ new Vue({
       })
       this.ws = null
     })
+
     this.ws.addEventListener('error', (e) => {
       this.chat.push({
         type: "warning",
