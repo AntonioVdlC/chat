@@ -29,7 +29,11 @@
           <!-- Message -->
           <template v-if="msg.type === 'message'">
             <img class="avatar" :src="msg.avatar" :alt="msg.userName" :title="msg.userName">
-            <span class="message">${msg.content}</span>
+            <span class="message">
+              <span class="name">${msg.userName}</span>
+              <span class="date">${msg.date.toLocaleString()}</span>
+              <span class="content">${msg.content}</span>
+            </span>
           </template>
           <!-- Notice -->
           <template v-else-if="msg.type === 'notice'">

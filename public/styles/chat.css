@@ -45,7 +45,7 @@ html, body {
 .main .chat-content {
   height: 100%;
   list-style: none;
-  padding: var(--spacing-half);
+  padding: var(--spacing-half-top-bottom);
   margin: 0;
   margin-bottom: var(--spacing-half);
   overflow: scroll;
@@ -57,6 +57,7 @@ html, body {
 .main .chat-content li .avatar {
   height: var(--avatar-size);
   width: var(--avatar-size);
+  min-width: var(--avatar-size);
   border-radius: var(--avatar-size);
   box-shadow: var(--avatar-box-shadow);
 }
@@ -69,7 +70,20 @@ html, body {
   line-height: var(--avatar-size);
   background-color: var(--chat-message-bg-color);
   color: var(--chat-message-txt-color);
-  border-radius: var(--spacing);
+}
+.main .chat-content li .message .name {
+  font-weight: bold;
+  font-size: 16px;
+}
+.main .chat-content li .message .date {
+  font-size: 14px;
+}
+.main .chat-content li .message .date::before {
+  content: "· ";
+}
+.main .chat-content li .message .content {
+  display: block;
+  padding-bottom: var(--spacing-half);
 }
 .main .chat-content .mine .message {
   background-color: var(--chat-message-bg-color-mine);

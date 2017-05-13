@@ -16,18 +16,18 @@ new Vue({
     this.ws = new WebSocket(`${protocol}//${window.location.host}/ws`)
 
     this.ws.addEventListener('message', (e) => {
-      let {
+      let { id, userId, userName, avatar, type, content, date } = JSON.parse(e.data)
+
+      this.chat.push({
         id,
         userId,
         userName,
         avatar,
         type,
         content,
-        date,
-      } = JSON.parse(e.data)
-      
-      this.chat.push({ id, userId, userName, avatar, type, content, date })
-      
+        date: new Date(date),
+      })
+
       // Make sure the messages are always sorted chronologically by date
       this.chat.sort((a, b) => 
         (new Date(a.date) > new Date(b.date)) ? 1 : 
