@@ -21,7 +21,7 @@
 }
 
 /* body reset */
-html, body {
+html, body, #app {
   height: 100%;
 }
 
@@ -35,11 +35,20 @@ html, body {
 
 /* Main */
 .main {
-  display: flex;
-  flex-direction: column;
   height: calc(100% - ((var(--spacing) * 5.25) + (var(--line-height) * 1)));
   padding: var(--spacing);
   padding-top: var(--spacing-quarter);
+  transition: transform 0.5s;
+}
+.main.show-users {
+  transform: translateX(-100%);
+}
+
+/* Chat */
+.main .chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .main .chat-content {
@@ -130,4 +139,26 @@ html, body {
 }
 .main .chat-message button:hover {
   cursor: pointer;
+}
+
+/* Users List */
+
+.main .users {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 200;
+  width: 100%;
+  height: 100%;
+  transform: translateX(100%);
+}
+
+.main .users .list {
+
+}
+.main .users .list .avatar {
+
+}
+.main .users .list .name {
+
 }

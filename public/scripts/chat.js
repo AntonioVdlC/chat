@@ -10,6 +10,7 @@ new Vue({
     message: '',
     chat: [],
     users: [],
+    showUsers: false,
   },
 
   created: function() {
@@ -97,6 +98,9 @@ new Vue({
       if (doScroll) {
         $chat.scrollTop = $chat.scrollHeight - $chat.clientHeight
       }
+    },
+    toggleUsers: function() {
+      this.showUsers = !this.showUsers
     },
   }
 })

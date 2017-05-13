@@ -18,50 +18,69 @@
     <link href="public/styles/chat.css" rel="stylesheet">
   </head>
   <body>
-    <header class="header">
-      <a href="/">{{T "header_title"}}</a>
-      <img src="{{.AvatarURL}}" alt="{{.Name}}">
-    </header>
+    <div id="app">
+      <header class="header">
+        <a href="/">{{T "header_title"}}</a>
+        <img src="{{.AvatarURL}}" alt="{{.Name}}" @click="toggleUsers">
+      </header>
 
-    <main class="main" id="app">
-      <ul class="chat-content" ref="chat">
-        <li v-for="msg in chat" :class="{ mine: (msg.userId === user.id) }">
-          <!-- Message -->
-          <template v-if="msg.type === 'message'">
-            <img class="avatar" :src="msg.avatar" :alt="msg.userName" :title="msg.userName">
-            <span class="message">
-              <span class="name">${msg.userName}</span>
-              <span class="date">${msg.date.toLocaleString()}</span>
-              <span class="content">${msg.content}</span>
-            </span>
+      <main class="main" :class="{ 'show-users': showUsers }">
+        <!-- Chat -->
+        <div class="chat" id="chat">
+          <ul class="chat-content" ref="chat">
+            <li v-for="msg in chat" :class="{ mine: (msg.userId === user.id) }">
+              <!-- Message -->
+              <template v-if="msg.type === 'message'">
+                <img class="avatar" :src="msg.avatar" :alt="msg.userName" :title="msg.userName">
+                <span class="message">
+                  <span class="name">${msg.userName}</span>
+                  <span class="date">${msg.date.toLocaleString()}</span>
+                  <span class="content">${msg.content}</span>
+                </span>
+              </template>
+              <!-- Notice -->
+              <template v-else-if="['notice', 'login', 'logout'].includes(msg.type)">
+                <span class="notice">${msg.content}</span>
+              </template>
+              <!-- Warning -->
+              <template v-else-if="msg.type === 'warning'">
+                <span class="warning">${msg.content}</span>
+              </template>
+            </li>
+          </ul>
+
+          <div class="chat-message">
+            <input
+              type="text"
+              aria-label="Write message"
+              maxlength="270"
+              placeholder="{{T "chat_message_placeholder"}}"
+              v-model="message"
+              @focus="scrollToLast(true)"
+              @keyup.enter="send"
+            />
+            <button @click="send">{{T "chat_message_send"}}</button>
+          </div>
+        </div>
+
+        <!-- Users -->
+        <div class="users" id="users">
+          <template v-if="users.length">
+            <ul class="list">
+              <li v-for="user in users">
+                <img class="avatar" :src="user.avatar" :alt="user.name" :title="user.name">
+                <span class="name">${user.name}</span>
+              </li>
+            </ul>
           </template>
-          <!-- Notice -->
-          <template v-else-if="msg.type === 'notice'">
-            <span class="notice">${msg.content}</span>
+          <template v-else>
+            <span>No one here ...</span>
           </template>
-          <!-- Warning -->
-          <template v-else-if="msg.type === 'warning'">
-            <span class="warning">${msg.content}</span>
-          </template>
-        </li>
-      </ul>
+        </div>
+      </main>
 
-      <div class="chat-message">
-        <input
-          type="text"
-          aria-label="Write message"
-          maxlength="270"
-          placeholder="{{T "chat_message_placeholder"}}"
-          v-model="message"
-          @focus="scrollToLast(true)"
-          @keyup.enter="send"
-        />
-        <button @click="send">{{T "chat_message_send"}}</button>
-      </div>
-    </main>
-
-    <footer class="footer"></footer>
-
+      <footer class="footer"></footer>
+    </div>
     <script>
       i18n = {
         "chat_warning_connection_closed": {{T "chat_warning_connection_closed"}},
