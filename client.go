@@ -13,6 +13,12 @@ const (
 	maxMessageSize = 512
 )
 
+// WSMessage is an interface that needs to be implemented to be able to
+// be sent down the pipe through the Client's send channel
+type WSMessage interface {
+	CanBeSentDownThePipe()
+}
+
 // Message emitted by a client and broadcasted to the channel
 type Message struct {
 	ID string `json:"id"`
@@ -23,12 +29,32 @@ type Message struct {
 	Content string `json:"content"`
 	Date time.Time `json:"date"`
 }
+// CanBeSentDownThePipe allows Message to be sent through
+// the Client's send channel
+func (m Message) CanBeSentDownThePipe() {}
+
+// User represents a chat user
+type User struct {
+	ID string `json:"id"`
+	Name string `json:"name"`
+	Avatar string `json:"avatar"`
+}
+
+// Bootstrap is a JSON sent by the hub when a new client connects
+type Bootstrap struct {
+	Messages []Message `json:"messages"`
+	Users []User `json:"users"`
+	Type string `json:"type"`
+}
+// CanBeSentDownThePipe allows Bootstrap to be sent through
+// the Client's send channel
+func (b Bootstrap) CanBeSentDownThePipe() {}
 
 // Client is a middleman between the WebSocket connection and the Hub
 type Client struct {
 	hub *Hub
 	conn *websocket.Conn
-	send chan Message
+	send chan WSMessage
 	user goth.User
 }
 

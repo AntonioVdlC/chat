@@ -111,3 +111,17 @@ func selectPreviousMessage(db *sql.DB, userID string) (*sql.Rows, error) {
 	}
 	return rows, nil
 }
+
+func selectConnectedUsers(db *sql.DB, userID string) (*sql.Rows, error) {
+	stmt := `
+		SELECT DISTINCT user_id, user_name, user_avatar
+		FROM messages
+		WHERE user_id != $1
+	`
+
+	rows, err := db.Query(stmt)
+	if err != nil {
+		return &sql.Rows{}, err
+	}
+	return rows, nil
+}

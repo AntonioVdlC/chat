@@ -32,7 +32,7 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	client := &Client{
 		hub: hub,
 		conn: conn,
-		send: make(chan Message),
+		send: make(chan WSMessage),
 		user: user,
 	}
 	client.hub.register <- client

@@ -69,7 +69,9 @@ func (h *Hub) run() {
 				// Add the new client to the list of clients
 				h.clients[client] = true
 
-				// Send previous messages to new client
+				// Send previous messages and logged-in users to new client
+				bootstrap := Bootstrap{ []Message{}, []User{}, "bootstrap" }
+
 				rows, err := selectPreviousMessage(h.db, client.user.UserID)
 				defer rows.Close()
 				if err != nil {
@@ -83,8 +85,25 @@ func (h *Hub) run() {
 						log.Printf("Error: %v", err)
 						return
 					}
-					client.send <- message
+					bootstrap.Messages = append(bootstrap.Messages, message)
 				}
+
+				rows, err = selectConnectedUsers(h.db, client.user.UserID)
+				if err != nil {
+					log.Printf("Error: %v", err)
+					return
+				}
+
+				for rows.Next() {
+					var user User
+					if err := rows.Scan(&user.ID, &user.Name, &user.Avatar); err != nil {
+						log.Printf("Error: %v", err)
+						return
+					}
+					bootstrap.Users = append(bootstrap.Users, user)
+				}
+
+				client.send <- bootstrap
 
 			case client := <- h.unregister:
 				if _, ok := h.clients[client]; ok {

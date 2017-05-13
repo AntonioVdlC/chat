@@ -18,17 +18,43 @@ new Vue({
     this.ws = new WebSocket(`${protocol}//${window.location.host}/ws`)
 
     this.ws.addEventListener('message', (e) => {
-      let { id, userId, userName, avatar, type, content, date } = JSON.parse(e.data)
+      let data = JSON.parse(e.data)
 
-      this.chat.push({
-        id,
-        userId,
-        userName,
-        avatar,
-        type,
-        content,
-        date: new Date(date),
-      })
+      // Bootstrap
+      if (data.type === "bootstrap") {
+        let { messages, users } = JSON.parse(e.data)
+
+        // Retrieve messages
+        messages.forEach((message) => {
+          let { id, userId, userName, avatar, type, content, date } = message
+          this.chat.push({ id, userId, userName, avatar, type, content, date: new Date(date) })
+        })
+
+        // Retrieve users
+        this.users = [...users]
+      }
+
+      // Chat message
+      else {
+        let { id, userId, userName, avatar, type, content, date } = data
+
+        this.chat.push({ id, userId, userName, avatar, type, content, date: new Date(date),})
+
+        // Update users list if login or logout message
+        if (type === 'login') {
+          // As VueJS template directives don't iterate over Set or Map
+          // make sure we are not adding duplicated.
+          if (!this.users.some(user => user.id === userId)) {
+            this.users.push({ id: userId, name: userName, avatar })
+          }
+        } else if (type === 'logout') {
+          // As VueJS template directives don't iterate over Set or Map
+          // make sure we are deleting a user that exists.
+          if (this.users.some(user => user.id === userId)) {
+            this.users.splice(this.users.findIndex(user => user.id === userId), 1)
+          }
+        }
+      }
 
       // Make sure the messages are always sorted chronologically by date
       this.chat.sort((a, b) => 
@@ -36,21 +62,6 @@ new Vue({
         (new Date(a.date) < new Date(b.date)) ? -1 :
         0
       )
-
-      // Update users list if login or logout message
-      if (type === 'login') {
-        // As VueJS template directives don't iterate over Set or Map
-        // make sure we are not adding duplicated.
-        if (!this.users.some(user => user.id === userId)) {
-          this.users.push({ id: userId, name: userName, avatar })
-        }
-      } else if (type === 'logout') {
-        // As VueJS template directives don't iterate over Set or Map
-        // make sure we are deleting a user that exists.
-        if (this.users.some(user => user.id === userId)) {
-          this.users.splice(this.users.findIndex(user => user.id === userId), 1)
-        }
-      }
     })
 
     this.ws.addEventListener('close', (e) => {
