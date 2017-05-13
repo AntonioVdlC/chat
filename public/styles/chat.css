@@ -157,14 +157,32 @@ html, body, #app {
   display: block;
   text-align: center;
   margin-top: 66%;
+  padding: var(--spacing);
 }
 
 .main .users .list {
-
+  height: calc(100% - var(--spacing) * 2);
+  list-style: none;
+  padding: var(--spacing);
+  margin: 0;
+  overflow: scroll;
 }
-.main .users .list .avatar {
-
+.main .users .list li {
+  display: flex;
+  padding: var(--spacing-half-top-bottom);
 }
-.main .users .list .name {
-
+.main .users .list li .avatar {
+  height: var(--avatar-size);
+  width: var(--avatar-size);
+  min-width: var(--avatar-size);
+  border-radius: var(--avatar-size);
+  box-shadow: var(--avatar-box-shadow);
+}
+.main .users .list li .name {
+  font-size: var(--chat-font-size);
+  display: block;
+  flex-grow: 1;
+  margin-left: var(--spacing);
+  padding: var(--spacing-half-right-left);
+  line-height: var(--avatar-size);
 }
