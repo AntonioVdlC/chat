@@ -156,7 +156,7 @@ html, body, #app {
 .main .users .no-users {
   display: block;
   text-align: center;
-  margin-top: 66%;
+  margin-top: 33vh;
   padding: var(--spacing);
 }
 
