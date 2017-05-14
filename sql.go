@@ -114,9 +114,26 @@ func selectPreviousMessage(db *sql.DB, userID string) (*sql.Rows, error) {
 
 func selectConnectedUsers(db *sql.DB, userID string) (*sql.Rows, error) {
 	stmt := `
-		SELECT DISTINCT user_id, user_name, user_avatar
-		FROM messages
-		WHERE user_id != $1
+		SELECT DISTINCT m.user_id, m.user_name, m.user_avatar
+		FROM messages m 
+			INNER JOIN
+
+			(SELECT DISTINCT user_id, user_name, user_avatar, MAX(date_post)
+			FROM messages
+			WHERE type = 'logout'
+			GROUP BY user_id, user_name, user_avatar) users_logout 
+			ON m.user_id = users_logout.user_id
+
+			INNER JOIN 
+
+			(SELECT DISTINCT user_id, user_name, user_avatar, MAX(date_post)
+			FROM messages
+			WHERE type = 'login'
+			GROUP BY user_id, user_name, user_avatar) users_login 
+			ON m.user_id = users_login.user_id
+				AND users_login.max > users_logout.max
+
+		WHERE m.user_id != $1
 	`
 
 	rows, err := db.Query(stmt, userID)
