@@ -86,11 +86,17 @@ func getUser(r *http.Request, p string) (goth.User, error) {
 	sess, _ := provider.UnmarshalSession(values.(string))
 	user, err := provider.FetchUser(sess)
 
-	log.Println(user.UserID)
-	log.Println(user.Name)
-
 	if err != nil {
 		return goth.User{}, err
+	}
+
+	// Namespace the user ID
+	switch (p) {
+		case "facebook":
+			user.UserID = "fb-" + user.UserID
+		case "twitter":
+			user.UserID = "tw-" + user.UserID
+		default:
 	}
 
 	return user, nil
