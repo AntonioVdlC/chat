@@ -3,9 +3,11 @@
   --main-margin-top: 40vh;
   --fb-bg-color: #3949AB;
   --fb-txt-color: white;
-  --fb-border-radius: 5px;
-  --fb-spacing: 16px;
-  --fb-width: 50%;
+  --tw-bg-color: #3949AB;
+  --tw-txt-color: white;
+  --login-button-border-radius: 5px;
+  --login-button-spacing: 16px;
+  --login-button-width: 50%;
 }
 
 /* Main */
@@ -18,8 +20,19 @@
   text-align: center;
   background-color: var(--fb-bg-color);
   color: var(--fb-txt-color);
-  padding: var(--fb-spacing);
-  border-radius: var(--fb-border-radius);
-  width: var(--fb-width);
+  padding: var(--login-button-spacing);
+  border-radius: var(--login-button-border-radius);
+  width: var(--login-button-width);
+  margin: auto;
+}
+.main .login-tw {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--tw-bg-color);
+  color: var(--tw-txt-color);
+  padding: var(--login-button-spacing);
+  border-radius: var(--login-button-border-radius);
+  width: var(--login-button-width);
   margin: auto;
 }

@@ -75,6 +75,18 @@
 			"revisionTime": "2017-03-01T11:13:36Z"
 		},
 		{
+			"checksumSHA1": "1w0V6jYXaGlEtZcMeYTOAAucvgw=",
+			"path": "github.com/markbates/goth/providers/twitter",
+			"revision": "d26e8742a1d6ebc4978e6dc8d4b8e32f7f6fb6fb",
+			"revisionTime": "2017-05-03T14:03:06Z"
+		},
+		{
+			"checksumSHA1": "hQcIDtbilIlkJaYhl2faWIFL8uY=",
+			"path": "github.com/mrjones/oauth",
+			"revision": "3f67d9c274355678b2f9844b08d643e2f9213340",
+			"revisionTime": "2017-02-25T17:57:52Z"
+		},
+		{
 			"checksumSHA1": "mM6ktIsvbfwg0y7tUSPyhmaaVds=",
 			"path": "github.com/nicksnyder/go-i18n/goi18n",
 			"revision": "f373441d6d54a32891b2d8b1dbf99bc518f3d60d",

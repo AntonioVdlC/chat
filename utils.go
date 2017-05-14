@@ -15,6 +15,7 @@ import (
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/facebook"
+	"github.com/markbates/goth/providers/twitter"
 	"github.com/nicksnyder/go-i18n/i18n"
 
 	_ "github.com/joho/godotenv/autoload"
@@ -29,7 +30,10 @@ func loadSession() {
 	gothic.Store = store
 
 	host := getHost()
-	goth.UseProviders(facebook.New(os.Getenv("FACEBOOK_KEY"), os.Getenv("FACEBOOK_SECRET"), host + "/auth/callback?provider=facebook"))
+	goth.UseProviders(
+		facebook.New(os.Getenv("FACEBOOK_KEY"), os.Getenv("FACEBOOK_SECRET"), host + "/auth/callback?provider=facebook"),
+		twitter.New(os.Getenv("TWITTER_KEY"), os.Getenv("TWITTER_SECRET"), host + "/auth/callback?provider=twitter"),
+	)
 }
 
 // loadLocales loads all i18n strings from the `locales` directory
@@ -81,6 +85,9 @@ func getUser(r *http.Request, p string) (goth.User, error) {
 	provider, _ := goth.GetProvider(p)
 	sess, _ := provider.UnmarshalSession(values.(string))
 	user, err := provider.FetchUser(sess)
+
+	log.Println(user.UserID)
+	log.Println(user.Name)
 
 	if err != nil {
 		return goth.User{}, err

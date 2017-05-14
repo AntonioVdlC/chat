@@ -8,6 +8,8 @@ other = "Simple Go Chat"
 # Login
 [login_facebook]
 other = "Se connecter avec Facebook"
+[login_twitter]
+other = "Se connecter avec Twitter"
 
 # Chat
 [chat_message_placeholder]

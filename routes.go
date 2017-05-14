@@ -25,8 +25,11 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	user, err := getUser(r, "facebook")
 	if err != nil {
-		log.Printf("Error: %v", err)
-		return
+		user, err = getUser(r, "twitter")
+		if err != nil {
+			log.Printf("Error: %v", err)
+			return
+		}
 	}
 	
 	client := &Client{
@@ -46,6 +49,9 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 // displays the login or the chat screen.
 func home(w http.ResponseWriter, r *http.Request) {
 	_, err := getUser(r, "facebook")
+	if err != nil {
+		_, err = getUser(r, "twitter")
+	}
 
 	if err != nil {
 		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
@@ -58,6 +64,9 @@ func login(w http.ResponseWriter, r *http.Request) {
 	T := initT(r.Header.Get("Accept-Language"), "en")
 
 	_, err := getUser(r, "facebook")
+	if err != nil {
+		_, err = getUser(r, "twitter")
+	}
 
 	if err != nil {
 		t, _ := template.New("login.html").Funcs(template.FuncMap{"T": T}).ParseFiles("./templates/login.html")
@@ -71,6 +80,9 @@ func chat(w http.ResponseWriter, r *http.Request) {
 	T := initT(r.Header.Get("Accept-Language"), "en")
 
 	user, err := getUser(r, "facebook")
+	if err != nil {
+		user, err = getUser(r, "twitter")
+	}
 
 	if err != nil {
 		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
