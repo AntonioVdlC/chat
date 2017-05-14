@@ -119,7 +119,7 @@ func selectConnectedUsers(db *sql.DB, userID string) (*sql.Rows, error) {
 		WHERE user_id != $1
 	`
 
-	rows, err := db.Query(stmt)
+	rows, err := db.Query(stmt, userID)
 	if err != nil {
 		return &sql.Rows{}, err
 	}
