@@ -1,9 +1,9 @@
 /* Variables */
 :root {
-  --main-margin-top: 40vh;
-  --fb-bg-color: #3949AB;
+  --main-margin-top: 33vh;
+  --fb-bg-color: #3B5998;
   --fb-txt-color: white;
-  --tw-bg-color: #3949AB;
+  --tw-bg-color: #1DA1F2;
   --tw-txt-color: white;
   --login-button-border-radius: 5px;
   --login-button-spacing: 16px;
@@ -24,6 +24,8 @@
   border-radius: var(--login-button-border-radius);
   width: var(--login-button-width);
   margin: auto;
+  margin-top: var(--spacing);
+  margin-bottom: var(--spacing);
 }
 .main .login-tw {
   display: block;
@@ -35,4 +37,6 @@
   border-radius: var(--login-button-border-radius);
   width: var(--login-button-width);
   margin: auto;
+  margin-top: var(--spacing);
+  margin-bottom: var(--spacing);
 }
