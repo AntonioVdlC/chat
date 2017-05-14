@@ -29,7 +29,13 @@
       <main class="main" :class="{ 'show-users': showUsers }">
         <!-- Chat -->
         <div class="chat" id="chat">
-          <ul class="chat-content" ref="chat">
+          <!-- Pull Refresh -->
+          <vue-pull-refresh :on-refresh="onPullRefresh" :config="{ errorLabel: '{{ T "pull_refresh_label_error"}}', startLabel:'{{ T "pull_refresh_label_start"}}', readyLabel: '{{ T "pull_refresh_label_ready"}}', loadingLabel: '{{ T "pull_refresh_label_loading"}}' }">
+            <span class="pull-refresh-text">{{ T "pull_refresh_text"}}</span>
+          </vue-pull-refresh>
+
+          <!-- Chat Content -->
+          <ul class="chat-content" ref="chat">        
             <li v-for="msg in chat" :class="{ mine: (msg.userId === user.id) }">
               <!-- Message -->
               <template v-if="msg.type === 'message'">
@@ -51,6 +57,7 @@
             </li>
           </ul>
 
+          <!-- Chat Form -->
           <div class="chat-message">
             <input
               type="text"
@@ -102,6 +109,7 @@
       }
     </script>
     <script src="public/scripts/vendor/vue.min.js"></script>
+    <script src="public/scripts/vendor/vue-pull-refresh.min.js"></script>
     <script src="public/scripts/chat.js"></script>
   </body>
 </html>

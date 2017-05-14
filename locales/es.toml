@@ -33,3 +33,16 @@ other = "Error de Conexión. Por favor refresque su navegador."
 # Connected Users
 [no_connected_users]
 other = "No hay nadie más por aquí ... ¡por el momento!"
+
+# Pull Refresh
+[pull_refresh_text]
+other="Cargar más mensajes ..."
+
+[pull_refresh_label_error]
+other="Error"
+[pull_refresh_label_start]
+other="Tira"
+[pull_refresh_label_ready]
+other="Suelta"
+[pull_refresh_label_loading]
+other="Cargando"

@@ -33,3 +33,16 @@ other = "Connection Error. Please refresh your browser!"
 # Connected Users
 [no_connected_users]
 other = "There's no one else in here ... for now!"
+
+# Pull Refresh
+[pull_refresh_text]
+other="Pull to load older messages ..."
+
+[pull_refresh_label_error]
+other="Error"
+[pull_refresh_label_start]
+other="Pull"
+[pull_refresh_label_ready]
+other="Release"
+[pull_refresh_label_loading]
+other="Loading"

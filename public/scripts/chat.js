@@ -5,6 +5,10 @@ new Vue({
   // Go uses {{ . }} for its templates
   delimiters: ['${', '}'],
 
+  components: {
+    'vue-pull-refresh': VuePullRefresh
+  },
+
   data: {
     ws: null,
     message: '',
@@ -112,6 +116,13 @@ new Vue({
     },
     toggleUsers: function() {
       this.showUsers = !this.showUsers
+    },
+    onPullRefresh: function() {
+      return new Promise((resolve, reject) => {
+        setTimeout(function() {
+          resolve()
+        }, 1000)
+      })
     },
   }
 })
