@@ -44,24 +44,12 @@ func (h *Hub) run() {
 				log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged in.")
 
 				// Create a login message
-				message := Message{
-					UserID: client.user.UserID,
-					UserName: client.user.Name,
-					UserAvatar: client.user.AvatarURL,
-					Type: "login",
-					Content: h.T("chat_notice_login", client.user),
-					Date: time.Now().UTC(),
-				}
-
-				// Insert login in DB
-				id, err := insertMessage(h.db, message)
+				// Send notice to other clients that a new client logged in
+				message, err := loginMessage(h.db, client, h.T)
 				if err != nil {
 					log.Printf("Error: %v", err)
 					return
 				}
-				message.ID = id
-
-				// Send notice to other clients that a new client logged in
 				for c := range h.clients {
 					c.send <- message
 				}
@@ -70,39 +58,11 @@ func (h *Hub) run() {
 				h.clients[client] = true
 
 				// Send previous messages and logged-in users to new client
-				bootstrap := Bootstrap{ []Message{}, []User{}, "bootstrap" }
-
-				rows, err := selectPreviousMessage(h.db, client.user.UserID)
-				defer rows.Close()
+				bootstrap, err := bootstrap(h.db, client.user.UserID)
 				if err != nil {
 					log.Printf("Error: %v", err)
 					return
 				}
-
-				for rows.Next() {
-					var message Message
-					if err := rows.Scan(&message.ID, &message.UserID, &message.UserName, &message.UserAvatar, &message.Type, &message.Content, &message.Date); err != nil {
-						log.Printf("Error: %v", err)
-						return
-					}
-					bootstrap.Messages = append(bootstrap.Messages, message)
-				}
-
-				rows, err = selectConnectedUsers(h.db, client.user.UserID)
-				if err != nil {
-					log.Printf("Error: %v", err)
-					return
-				}
-
-				for rows.Next() {
-					var user User
-					if err := rows.Scan(&user.ID, &user.Name, &user.Avatar); err != nil {
-						log.Printf("Error: %v", err)
-						return
-					}
-					bootstrap.Users = append(bootstrap.Users, user)
-				}
-
 				client.send <- bootstrap
 
 			case client := <- h.unregister:
@@ -110,24 +70,12 @@ func (h *Hub) run() {
 					log.Println("[" + client.user.UserID + "] " + client.user.Name + " logged out.")
 
 					// Create logout message
-					message := Message{
-						UserID: client.user.UserID,
-						UserName: client.user.Name,
-						UserAvatar: client.user.AvatarURL,
-						Type:"logout",
-						Content: h.T("chat_notice_logout", client.user),
-						Date: time.Now().UTC(),
-					}
-
-					// Insert logout in DB
-					id, err := insertMessage(h.db, message)
+					// Send notice to other clients that this client logged out
+					message, err := logoutMessage(h.db, client, h.T)
 					if err != nil {
 						log.Printf("Error: %v", err)
 						return
 					}
-					message.ID = id
-
-					// Send notice to other clients that this client logged out
 					for c := range h.clients {
 						c.send <- message
 					}
@@ -159,4 +107,82 @@ func (h *Hub) run() {
 				}
 		}
 	}
+}
+
+// bootstrap retrieves the initial data needed to bootstrap the app
+// retrieving the previous messages and the connected users.
+func bootstrap(db *sql.DB, userID string) (Bootstrap, error) {
+	bootstrap := Bootstrap{ []Message{}, []User{}, "bootstrap" }
+
+	// Select previous messages from DB
+	rows, err := selectPreviousMessage(db, userID)
+	defer rows.Close()
+	if err != nil {
+		return bootstrap, err
+	}
+	for rows.Next() {
+		var message Message
+		if err := rows.Scan(&message.ID, &message.UserID, &message.UserName, &message.UserAvatar, &message.Type, &message.Content, &message.Date); err != nil {
+			return bootstrap, err
+		}
+		bootstrap.Messages = append(bootstrap.Messages, message)
+	}
+
+	// Select connected users from DB
+	rows, err = selectConnectedUsers(db, userID)
+	if err != nil {
+		return bootstrap, err
+	}
+	for rows.Next() {
+		var user User
+		if err := rows.Scan(&user.ID, &user.Name, &user.Avatar); err != nil {
+			return bootstrap, err
+		}
+		bootstrap.Users = append(bootstrap.Users, user)
+	}
+	
+	// All good to go!
+	return bootstrap, nil
+}
+
+// loginMessage creates a message on user login and saves it to the DB
+func loginMessage(db *sql.DB, client *Client, T i18n.TranslateFunc) (Message, error) {
+	message := Message{
+		UserID: client.user.UserID,
+		UserName: client.user.Name,
+		UserAvatar: client.user.AvatarURL,
+		Type: "login",
+		Content: T("chat_notice_login", client.user),
+		Date: time.Now().UTC(),
+	}
+
+	// Insert login in DB
+	id, err := insertMessage(db, message)
+	if err != nil {
+		return message, err
+	}
+	message.ID = id
+
+	return message, nil
+}
+
+// logoutMessage creates a message on user logout and saves it to the DB
+func logoutMessage(db *sql.DB, client *Client, T i18n.TranslateFunc) (Message, error) {
+	message := Message{
+		UserID: client.user.UserID,
+		UserName: client.user.Name,
+		UserAvatar: client.user.AvatarURL,
+		Type: "logout",
+		Content: T("chat_notice_logout", client.user),
+		Date: time.Now().UTC(),
+	}
+
+	// Insert login in DB
+	id, err := insertMessage(db, message)
+	if err != nil {
+		return message, err
+	}
+	message.ID = id
+
+	return message, nil
 }
