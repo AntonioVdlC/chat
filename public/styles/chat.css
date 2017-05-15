@@ -16,6 +16,9 @@
   --chat-input-border: 1px solid grey;
   --chat-button-padding: 8px 24px 12px;
   --chat-message-min-height: 40px;
+  --pull-down-header-color: #F5F5F5;
+  --pull-down-content-color: black;
+  --pull-down-text-color: black;
   --send-bg-color: #3949AB;
   --send-txt-color: white;
 }
@@ -51,6 +54,20 @@ html, body, #app {
   height: 100%;
 }
 
+/* Pull Refresh */
+.main .pull-down-container .pull-down-header {
+  background-color: var(--pull-down-header-color);
+}
+.main .pull-down-container .pull-down-content {
+  color: var(--pull-down-content-color);
+}
+.main .pull-down-container .pull-down-text {
+  display: block;
+  text-align: center;
+  color: var(--pull-down-text-color);
+}
+
+/* Chat Content */
 .main .chat-content {
   height: 100%;
   list-style: none;
@@ -142,7 +159,6 @@ html, body, #app {
 }
 
 /* Users List */
-
 .main .users {
   position: fixed;
   top: 0;
