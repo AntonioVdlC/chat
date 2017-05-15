@@ -14,6 +14,7 @@ import (
 type Hub struct {
 	clients map[*Client]bool
 	broadcast chan Message
+	request chan Message
 	register chan *Client
 	unregister chan *Client
 	T i18n.TranslateFunc
@@ -24,6 +25,7 @@ type Hub struct {
 func newHub(db *sql.DB) *Hub {
 	return &Hub{
 		broadcast: make(chan Message),
+		request: make(chan Message),
 		register: make(chan *Client),
 		unregister: make(chan *Client),
 		clients: make(map[*Client]bool),
@@ -105,6 +107,17 @@ func (h *Hub) run() {
 							delete(h.clients, client)
 					}
 				}
+			
+			case request := <- h.request:
+				log.Println("[" + request.UserID + "] " + request.UserName + " requested '" + request.Content + "'.")
+
+				messages, err := getOlderMessages(h.db, request.Date)
+				if err != nil {
+					log.Printf("Error: %v", err)
+					return
+				}
+
+				request.Client.send <- messages
 		}
 	}
 }
@@ -186,3 +199,25 @@ func logoutMessage(db *sql.DB, client *Client, T i18n.TranslateFunc) (Message, e
 
 	return message, nil
 }
+
+// getOlderMessages retrieves the previous 10 message from a given date
+func getOlderMessages(db *sql.DB, date time.Time) (Messages, error) {
+	messages := Messages{ []Message{}, "messages" }
+
+	// Select previous messages from DB
+	rows, err := selectOlderMessages(db, date)
+	defer rows.Close()
+	if err != nil {
+		return messages, err
+	}
+	for rows.Next() {
+		var message Message
+		if err := rows.Scan(&message.ID, &message.UserID, &message.UserName, &message.UserAvatar, &message.Type, &message.Content, &message.Date); err != nil {
+			return messages, err
+		}
+		messages.Messages = append(messages.Messages, message)
+	}
+
+	return messages, nil
+}
+

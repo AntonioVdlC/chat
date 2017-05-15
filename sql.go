@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -140,6 +141,23 @@ func selectConnectedUsers(db *sql.DB, userID string) (*sql.Rows, error) {
 	`
 
 	rows, err := db.Query(stmt, userID)
+	if err != nil {
+		return &sql.Rows{}, err
+	}
+	return rows, nil
+}
+
+func selectOlderMessages(db *sql.DB, date time.Time) (*sql.Rows, error) {
+	stmt := `
+		SELECT *
+		FROM messages
+		WHERE type = 'message'
+			AND date_post < $1
+		ORDER BY date_post DESC
+		LIMIT 10
+	`
+
+	rows, err := db.Query(stmt, date)
 	if err != nil {
 		return &sql.Rows{}, err
 	}

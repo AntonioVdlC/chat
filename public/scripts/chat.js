@@ -38,6 +38,17 @@ new Vue({
         this.users = [...users]
       }
 
+      // Bulk messages
+      else if (data.type === "messages") {
+        let { messages } = JSON.parse(e.data)
+
+        // Retrieve messages
+        messages.forEach((message) => {
+          let { id, userId, userName, avatar, type, content, date } = message
+          this.chat.push({ id, userId, userName, avatar, type, content, date: new Date(date) })
+        })
+      }
+
       // Chat message
       else {
         let { id, userId, userName, avatar, type, content, date } = data
@@ -119,9 +130,19 @@ new Vue({
     },
     onPullRefresh: function() {
       return new Promise((resolve, reject) => {
-        setTimeout(function() {
-          resolve()
-        }, 1000)
+        if (this.ws) {
+          this.ws.send(
+            JSON.stringify({
+              type: 'request',
+              content: 'olderMessages',
+              date: this.chat[this.chat.length - 1].date
+            })
+          )
+          this.ws.addEventListener('message', () => resolve())
+          this.ws.addEventListener('error', () => reject())
+        } else {
+          reject()
+        }
       })
     },
   }

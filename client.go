@@ -28,10 +28,20 @@ type Message struct {
 	Type string `json:"type"`
 	Content string `json:"content"`
 	Date time.Time `json:"date"`
+	Client *Client `json:"-"`
 }
 // CanBeSentDownThePipe allows Message to be sent through
 // the Client's send channel
 func (m Message) CanBeSentDownThePipe() {}
+
+// Messages is a JSON sent by the hub when a new client connects
+type Messages struct {
+	Messages []Message `json:"messages"`
+	Type string `json:"type"`
+}
+// CanBeSentDownThePipe allows Messages to be sent through
+// the Client's send channel
+func (m Messages) CanBeSentDownThePipe() {}
 
 // User represents a chat user
 type User struct {
@@ -79,13 +89,23 @@ func (c *Client) read() {
 			log.Printf("Error: %v", err)
 			break
 		}
-
 		msg.UserID = c.user.UserID
 		msg.UserName = c.user.Name
-		msg.UserAvatar = c.user.AvatarURL
-		msg.Date = time.Now().UTC()
 
-		c.hub.broadcast <- msg
+		switch (msg.Type) {
+			case "message":
+				msg.UserAvatar = c.user.AvatarURL
+				msg.Date = time.Now().UTC()
+
+				c.hub.broadcast <- msg
+
+			case "request":
+				msg.Client = c
+				c.hub.request <- msg
+
+			default:
+				log.Printf("Error: unrecognised message %v", msg)
+		}
 	}
 }
 
