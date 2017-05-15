@@ -105,6 +105,21 @@ new Vue({
     this.scrollToLast()
   },
 
+  directives: {
+    scroll: {
+      componentUpdated: function(el, binding, vnode, oldVnode) {
+        // Only force on bootstrap, at which point the chat content only has
+        // 2 children nodes.
+        let force = (oldVnode.children.length === 2)
+
+        // This is a little hacky but I haven't found a better way to access
+        // the methods from the directives ... maybe I should read the docs
+        // again 😅
+        app.__vue__.scrollToLast(force)
+      }
+    }
+  },
+
   methods: {
     send: function() {
       if (!this.message) {
@@ -124,8 +139,8 @@ new Vue({
     scrollToLast: function (force = false) {
       let $chat = this.$refs.chat
       let doScroll = force ||
-        $chat.scrollTop > $chat.scrollHeight - $chat.clientHeight - 50
-      
+        $chat.scrollTop > $chat.scrollHeight - $chat.clientHeight - 150
+
       if (doScroll) {
         $chat.scrollTop = $chat.scrollHeight - $chat.clientHeight
       }
