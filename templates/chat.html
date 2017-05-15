@@ -43,7 +43,7 @@
                 <img class="avatar" :src="msg.avatar" :alt="msg.userName" :title="msg.userName">
                 <span class="message">
                   <span class="name">${msg.userName}</span>
-                  <span class="date">${msg.date.toLocaleString()}</span>
+                  <span class="date">${formatDate(msg.date)}</span>
                   <span class="content">${msg.content}</span>
                 </span>
               </template>
@@ -95,6 +95,9 @@
       i18n = {
         "chat_warning_connection_closed": {{T "chat_warning_connection_closed"}},
         "chat_warning_connection_error": {{T "chat_warning_connection_error"}},
+        "date_at": {{T "date_at"}},
+        "date_today": {{T "date_today"}},
+        "date_yesterday": {{T "date_yesterday"}},
       }
     </script>
     <script>

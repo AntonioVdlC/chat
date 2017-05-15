@@ -150,5 +150,21 @@ new Vue({
         }
       })
     },
+    formatDate: function(date) {
+      // Save reference to `date`
+      let d = new Date(date).setHours(0, 0, 0, 0)
+
+      let today = new Date().setHours(0, 0, 0, 0)
+      let yesterday = new Date(
+        new Date().setDate(new Date().getDate() - 1)
+      ).setHours(0, 0, 0, 0)
+
+      let day = (d === today) ? i18n["date_today"] :
+        (d === yesterday) ? i18n["date_yesterday"] :
+        date.toLocaleString().slice(0, 10)
+      let time = date.toTimeString().slice(0, 5)
+
+      return `${day} ${i18n["date_at"]} ${time}`
+    }
   }
 })

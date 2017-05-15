@@ -46,3 +46,12 @@ other="Pull"
 other="Release"
 [pull_refresh_label_loading]
 other="Loading"
+
+# Date String
+[date_at]
+other="at"
+
+[date_today]
+other="Today"
+[date_yesterday]
+other="Yesterday"

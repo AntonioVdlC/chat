@@ -46,3 +46,12 @@ other="Tira"
 other="Suelta"
 [pull_refresh_label_loading]
 other="Cargando"
+
+# Date String
+[date_at]
+other="a las"
+
+[date_today]
+other="Hoy"
+[date_yesterday]
+other="Ayer"

@@ -46,3 +46,12 @@ other="Tirez"
 other="Lâchez"
 [pull_refresh_label_loading]
 other="Chargement"
+
+# Date String
+[date_at]
+other="à"
+
+[date_today]
+other="Aujourd'hui"
+[date_yesterday]
+other="Hier"
