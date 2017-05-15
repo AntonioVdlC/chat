@@ -45,7 +45,12 @@ new Vue({
         // Retrieve messages
         messages.forEach((message) => {
           let { id, userId, userName, avatar, type, content, date } = message
-          this.chat.push({ id, userId, userName, avatar, type, content, date: new Date(date) })
+
+          // As VueJS template directives don't iterate over Set or Map
+          // make sure we are not adding duplicated.
+          if (!this.chat.some(message => message.id === id)) {
+            this.chat.push({ id, userId, userName, avatar, type, content, date: new Date(date) })
+          }
         })
       }
 
@@ -135,7 +140,7 @@ new Vue({
             JSON.stringify({
               type: 'request',
               content: 'olderMessages',
-              date: this.chat[this.chat.length - 1].date
+              date: this.chat[0].date
             })
           )
           this.ws.addEventListener('message', () => resolve())
