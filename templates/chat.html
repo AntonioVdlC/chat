@@ -14,7 +14,7 @@
 
     <title>{{T "title"}}</title>
 
-    <link href="public/styles/chat.css" rel="stylesheet">
+    <link href="{{ asset "public/styles/chat.css" }}" rel="stylesheet">
   </head>
   <body>
     <div id="app">
@@ -110,7 +110,7 @@
         }).then((reg) => console.log(`Registration succeeded.`))
       }
     </script>
-    <script src="public/scripts/vendor.js"></script>
-    <script src="public/scripts/chat.js"></script>
+    <script src="{{ asset "public/scripts/vendor.js" }}"></script>
+    <script src="{{ asset "public/scripts/chat.js" }}"></script>
   </body>
 </html>
