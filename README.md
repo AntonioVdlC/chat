@@ -2,7 +2,6 @@
 
 Just a simple chat written in Go!
 It is mobile-first (-only?) and can be deployed fairly easily on Heroku, that way you can have total control on how your chat messages are handled.
-For now, the only auth provider is Facebook.
 
 ## Getting Started
 
@@ -15,17 +14,22 @@ Your best bet is to look into the official documentation to get set: https://gol
 
 > Note: if you are on macOS, have `brew` and want to have a more personalized install you can look into this: http://stackoverflow.com/a/40129734
 
+You will also need to install PostgreSQL on your machine!
+Once that's done, you'll need to create a `chat_dev` database as well as a `dev` user with `dev` as password that has all the rights on the `chat_dev` database! All the tables will be created when lauching the app, so no need to worry about that!
+
 ### Installing
 
-Once you have Go, running the server is as simple as
+For the app to run in dev, you will need to start PostgreSQL (and make sure it listens on port 5432, which is the default).
+
+Also, you will need to copy `.env.example`, rename the file `.env` and complete all the fields except `DATABASE_URL` and `PORT`.
+
+Once that is up and running, starting the server is as simple as
 
 ```
-go run *.go
+ENV=dev go run *.go
 ```
 
 and open your browser to http://localhost:8000/
-
-> NB: make sure you set the environment variables `SESSION_SECRET`, `FACEBOOK_KEY`, `FACEBOOK_SECRET`, `TWITTER_KEY` and `TWITTER_SECRET`!
 
 ## Running the tests
 
@@ -40,16 +44,18 @@ I ain't no DevOps, so these instructions will help you set up a production insta
 
 Regardless of your prefered method of deployment, you will need to tweak a bit the source code to get it running!
 - First of, you may want to clone this repository.
-- Once that's done, please update your hostname (`HOST`) in the `.env` file.
-- You will also need to create Facebook Login access tokens and load them into your environment varibles, as well as a session secret and a Twitter API key and secret!
+- You will also need to create Facebook Login access tokens, as well as a Twitter API key and secret!
+- Once that's done, please copy the `.env.example` file into `.env` and update all the fields.
 - Finally, you can customize the title of the app in the `locales/` folder, and you may want to modify it too in the `manifest.json`. For a different set of colors, please take a look at the files inside `public/styles/`! Feel free to change the `favicon.ico` too, and the files inside the `public/icons/` folder.
 
 Now you're all set to deploy!
 
 ### Heroku
 
-Create a new Heroku app and provision a PostgreSQL database.
+Create a new Go Heroku app and provision a PostgreSQL database.
 In the dashboard, connect your GitHub repo to the app and Deploy ... there you go! :tada:
+
+> NB: As the `.env` file is ignored by git, you may want to copy the environment variables into Heroku directly!
 
 ## Contributing
 
