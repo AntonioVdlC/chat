@@ -29,6 +29,8 @@ func main() {
 	})
 
 	rootStaticFiles := []string{
+		"favicon.ico",
+		"manifest.json",
 		"service-worker.js",
 		"robots.txt",
 	}

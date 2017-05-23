@@ -2,6 +2,7 @@ package main
 
 import (
 	"compress/gzip"
+	"encoding/json"
 	"errors"
 	"io"
 	"io/ioutil"
@@ -131,4 +132,21 @@ func cacheHandler(h http.Handler) http.Handler {
 		w.Header().Set("Cache-Control", "max-age=2332800") // 27 days
 		h.ServeHTTP(w, r)
 	})
+}
+
+// asset serves static assets using hashmark (so CSS and JS files for now!)
+func asset(asset string) string {
+	var manifest map[string]interface{}
+
+	file, err := ioutil.ReadFile("assets.json")
+	if err != nil {
+		log.Printf("Error: %v", err)
+	}
+
+	err = json.Unmarshal(file, &manifest)
+	if err != nil {
+		log.Printf("Error: %v", err)
+	}
+
+	return manifest[asset].(string)
 }

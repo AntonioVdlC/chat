@@ -10,14 +10,11 @@
     <meta name="msapplication-starturl" content="/">
     <meta name="theme-color" content="darkblue">
 
+    <link href="manifest.json" rel="manifest">
+
     <title>{{T "title"}}</title>
 
-    <link href="public/favicon.ico" rel="icon">
-
-    <link href="public/manifest.json" rel="manifest">
-
-    <link href="public/styles/main.css" rel="stylesheet">
-    <link href="public/styles/chat.css" rel="stylesheet">
+    <link href="{{ asset "public/styles/chat.css" }}" rel="stylesheet">
   </head>
   <body>
     <div id="app">
@@ -113,8 +110,7 @@
         }).then((reg) => console.log(`Registration succeeded.`))
       }
     </script>
-    <script src="public/scripts/vendor/vue.min.js"></script>
-    <script src="public/scripts/vendor/vue-pull-refresh.min.js"></script>
-    <script src="public/scripts/chat.js"></script>
+    <script src="{{ asset "public/scripts/vendor.js" }}"></script>
+    <script src="{{ asset "public/scripts/chat.js" }}"></script>
   </body>
 </html>

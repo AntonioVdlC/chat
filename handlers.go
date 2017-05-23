@@ -69,7 +69,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err != nil {
-		t, _ := template.New("login.html").Funcs(template.FuncMap{"T": T}).ParseFiles("./templates/login.html")
+		t, _ := template.New("login.html").Funcs(template.FuncMap{
+			"T": T,
+			"asset": asset,
+		}).ParseFiles("./templates/login.html")
+
 		t.Execute(w, nil)
 	} else {
 		http.Redirect(w, r, "/chat", http.StatusTemporaryRedirect)
@@ -87,7 +91,11 @@ func chat(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
 	} else {
-		t, _ := template.New("chat.html").Funcs(template.FuncMap{"T": T}).ParseFiles("./templates/chat.html")
+		t, _ := template.New("chat.html").Funcs(template.FuncMap{
+			"T": T,
+			"asset": asset,
+		}).ParseFiles("./templates/chat.html")
+
 		t.Execute(w, user)
 	}
 }
