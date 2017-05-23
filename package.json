@@ -4,6 +4,7 @@
   "description": "Just a simple chat written in Go!",
   "private": true,
   "scripts": {
+    "dev": "npm run build && npm run watch",
     "clean": "rimraf public/scripts && rimraf public/styles && mkdirp public/scripts && mkdirp public/styles",
     "build": "npm run build:assets",
     "build:assets": "npm run clean && npm run build:css && npm run build:js",
@@ -11,7 +12,10 @@
     "build:js": "npm run build:js:vendor && npm run build:js:chat",
     "build:js:vendor": "concat-cli -f source/scripts/vendor/*.js -o public/scripts/vendor.js",
     "build:js:chat": "babel source/scripts/chat.js -o public/scripts/chat.js --source-maps inline",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "parallelshell \"npm run watch:css\"  \"npm run watch:js\"",
+    "watch:css": "npm run build:css -- --watch",
+    "watch:js": "npm run build:js:chat -- --watch"
   },
   "repository": {
     "type": "git",
@@ -31,6 +35,7 @@
     "concat-cli": "^4.0.0",
     "cssnano": "^3.10.0",
     "mkdirp": "^0.5.1",
+    "parallelshell": "^2.0.0",
     "postcss-cli": "^4.0.0",
     "postcss-cssnext": "^2.11.0",
     "postcss-import": "^10.0.0",

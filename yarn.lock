@@ -1929,6 +1929,10 @@ p-locate@^2.0.0:
   dependencies:
     p-limit "^1.1.0"
 
+parallelshell@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/parallelshell/-/parallelshell-2.0.0.tgz#c94af5d6348526a26da9020faeb5fc724a80600c"
+
 parse-glob@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/parse-glob/-/parse-glob-3.0.4.tgz#b2c376cfb11f35513badd173ef0bb6e3a388391c"
