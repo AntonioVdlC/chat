@@ -7,15 +7,15 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "icons/launcher-icon-1x.png",
+      "src": "public/icons/launcher-icon-1x.png",
       "type": "image/png",
       "sizes": "48x48"
     },{
-      "src": "icons/launcher-icon-2x.png",
+      "src": "public/icons/launcher-icon-2x.png",
       "type": "image/png",
       "sizes": "96x96"
     },{
-      "src": "icons/launcher-icon-4x.png",
+      "src": "public/icons/launcher-icon-4x.png",
       "type": "image/png",
       "sizes": "192x192"
     }
