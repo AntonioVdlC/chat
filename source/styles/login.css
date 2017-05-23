@@ -1,0 +1,42 @@
+/* Variables */
+:root {
+  --main-margin-top: 33vh;
+  --fb-bg-color: #3B5998;
+  --fb-txt-color: white;
+  --tw-bg-color: #1DA1F2;
+  --tw-txt-color: white;
+  --login-button-border-radius: 5px;
+  --login-button-spacing: 16px;
+  --login-button-width: 50%;
+}
+
+/* Main */
+.main {
+  margin-top: var(--main-margin-top);
+}
+.main .login-fb {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--fb-bg-color);
+  color: var(--fb-txt-color);
+  padding: var(--login-button-spacing);
+  border-radius: var(--login-button-border-radius);
+  width: var(--login-button-width);
+  margin: auto;
+  margin-top: var(--spacing);
+  margin-bottom: var(--spacing);
+}
+.main .login-tw {
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--tw-bg-color);
+  color: var(--tw-txt-color);
+  padding: var(--login-button-spacing);
+  border-radius: var(--login-button-border-radius);
+  width: var(--login-button-width);
+  margin: auto;
+  margin-top: var(--spacing);
+  margin-bottom: var(--spacing);
+}

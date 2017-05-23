@@ -1,0 +1,29 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "Just a simple chat written in Go!",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf public/scripts && rimraf public/styles && mkdirp public/scripts && mkdirp public/styles",
+    "prebuild:assets": "npm run clean",
+    "build:assets": "npm run build:css && npm run build:js",
+    "build:css": "cp -r source/styles/ public/styles/",
+    "build:js": "cp -r source/scripts/ public/scripts/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntonioVdlC/chat.git"
+  },
+  "keywords": [],
+  "author": "Antonio Villagra De La Cruz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AntonioVdlC/chat/issues"
+  },
+  "homepage": "https://github.com/AntonioVdlC/chat#readme",
+  "dependencies": {
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.1"
+  }
+}
