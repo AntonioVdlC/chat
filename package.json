@@ -5,10 +5,12 @@
   "private": true,
   "scripts": {
     "clean": "rimraf public/scripts && rimraf public/styles && mkdirp public/scripts && mkdirp public/styles",
-    "prebuild:assets": "npm run clean",
-    "build:assets": "npm run build:css && npm run build:js",
+    "build": "npm run build:assets",
+    "build:assets": "npm run clean && npm run build:css && npm run build:js",
     "build:css": "postcss source/styles/{login,chat}.css -d public/styles/",
-    "build:js": "cp -r source/scripts/ public/scripts/",
+    "build:js": "npm run build:js:vendor && npm run build:js:chat",
+    "build:js:vendor": "concat-cli -f source/scripts/vendor/*.js -o public/scripts/vendor.js",
+    "build:js:chat": "babel source/scripts/chat.js -o public/scripts/chat.js --source-maps inline",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +25,10 @@
   },
   "homepage": "https://github.com/AntonioVdlC/chat#readme",
   "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-babili": "^0.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "concat-cli": "^4.0.0",
     "cssnano": "^3.10.0",
     "mkdirp": "^0.5.1",
     "postcss-cli": "^4.0.0",
