@@ -5,19 +5,19 @@
   "private": true,
   "scripts": {
     "dev": "npm run build && npm run watch",
-    "clean": "rimraf public/scripts && rimraf public/styles && mkdirp public/scripts && mkdirp public/styles",
-    "build": "npm run build:assets && npm run build:hashmark && npm run build:clean",
+    "clean": "npm run clean:css && npm run clean:js",
+    "clean:css": "rimraf public/styles && mkdirp public/styles",
+    "clean:js": "rimraf public/scripts && mkdirp public/scripts",
+    "build": "npm run build:assets",
     "build:assets": "npm run clean && npm run build:css && npm run build:js",
-    "build:css": "postcss source/styles/{login,chat}.css -d public/styles/",
+    "build:css": "postcss source/styles/{login,chat}.css -d public/styles/ && hashmark -l 8 public/styles/{login,chat}.css '{dir}/{name}.{hash}{ext}' -m assets.json && rimraf public/styles/{login,chat}.css",
     "build:js": "npm run build:js:vendor && npm run build:js:chat",
-    "build:js:vendor": "concat-cli -f source/scripts/vendor/*.js -o public/scripts/vendor.js",
-    "build:js:chat": "babel source/scripts/chat.js -o public/scripts/chat.js --source-maps inline",
-    "build:hashmark": "hashmark -l 8 public/**/*.{css,js} '{dir}/{name}.{hash}{ext}' -m assets.json",
-    "build:clean": "rimraf public/styles/{login,chat}.css && rimraf public/scripts/{vendor,chat}.js",
+    "build:js:vendor": "concat-cli -f source/scripts/vendor/*.js -o public/scripts/vendor.js && hashmark -l 8 public/scripts/vendor.js '{dir}/{name}.{hash}{ext}' -m assets.json && rimraf public/scripts/vendor.js",
+    "build:js:chat": "babel source/scripts/chat.js -o public/scripts/chat.js --source-maps inline  && hashmark -l 8 public/scripts/chat.js '{dir}/{name}.{hash}{ext}' -m assets.json && rimraf public/scripts/chat.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "parallelshell \"npm run watch:css\"  \"npm run watch:js\"",
-    "watch:css": "npm run build:css -- --watch",
-    "watch:js": "npm run build:js:chat -- --watch"
+    "watch:css": "watch \"npm run clean:css && npm run build:css\" source/styles/",
+    "watch:js": "watch \"npm run clean:js && npm run build:js\" source/scripts/"
   },
   "repository": {
     "type": "git",
@@ -42,6 +42,7 @@
     "postcss-cli": "^4.0.0",
     "postcss-cssnext": "^2.11.0",
     "postcss-import": "^10.0.0",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "watch": "^1.0.2"
   }
 }
