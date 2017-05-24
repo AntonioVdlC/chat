@@ -30,6 +30,11 @@ html, body, #app {
   height: 100%;
 }
 
+/* Disable pull-to-refresh in Chrome on Android */
+body {
+  overflow-y: hidden;
+}
+
 /* Header */
 .header img {
   float: right;
